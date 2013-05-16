@@ -1,0 +1,3 @@
+# We're robot-friendly!
+User-agent: *
+Disallow:
