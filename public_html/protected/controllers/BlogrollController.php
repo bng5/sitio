@@ -69,7 +69,7 @@ class BlogrollController extends Controller {
             $outline->setAttribute('type', ($row->type == Feed::TYPE_RSS ? 'rss' : 'pie'));
             $outline->setAttribute('xmlUrl', $row->url);
             $outline->setAttribute('htmlUrl', $row->link);
-        }       
+        }
         header("Content-Type: application/xml; charset=UTF-8");
         echo $doc->saveXML();
     }
