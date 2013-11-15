@@ -54,7 +54,7 @@ $breadcrumbs = (isset($this->breadcrumbs) && count($this->breadcrumbs));
 <body>
 <div id="header"<?php echo $breadcrumbs ? ' class="breadcrums"' : ''; ?>>
     <div class="content">
-        <em><a href="http://bng5.net/" rel="home">Bng5</a></em>
+        <em><a href="http://bng5.net/" rel="home">Bng5</a> (CouchDB)</em>
         <?php
 
         if(!Yii::app()->user->isGuest) {
