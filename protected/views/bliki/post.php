@@ -17,7 +17,7 @@ echo $html;
 //    $model->fecha_creado,
 //    $model->fecha_modificado
 
-$cache_id_post = 'post:'.$post->id;
+$cache_id_post = 'post:'.$post->_id;
 if($cache && $texto = Yii::app()->cache->get($cache_id_post)) {
     echo $texto;
     echo '<p><em>Obtenido del caché</em></p>';
@@ -26,11 +26,11 @@ if($cache && $texto = Yii::app()->cache->get($cache_id_post)) {
     ob_start();
 
 echo '<pre>';
-var_dump(
-    'toc_habilitado', $post->toc_habilitado,
-    'comentarios_habilitados', $post->comentarios_habilitados,
-    ''
-);
+//var_dump(
+////    'toc_habilitado', $post->toc_habilitado,
+////    'comentarios_habilitados', $post->comentarios_habilitados,
+//    ''
+//);
 echo '</pre>';
 //    echo $post->texto;
 
@@ -63,13 +63,13 @@ if($cache && $comentarios = Yii::app()->cache->get('come:'.$post->id)) {
 }
 else {
 
-    $comentarios = array();
-    foreach($comments AS $comment) {
-        $key = $comment->reply_to ? 
-            $comment->reply_to : 
-            0;
-        $comentarios[$key][] = $comment;
-    }
+//    $comentarios = array();
+//    foreach($comments AS $comment) {
+//        $key = $comment->reply_to ? 
+//            $comment->reply_to : 
+//            0;
+//        $comentarios[$key][] = $comment;
+//    }
 
     function mostrarComentarios($comentarios, $parent, $controller, $level = 0) {
         if(!count($comentarios))
@@ -112,7 +112,7 @@ else {
 
 
     ob_start();
-    mostrarComentarios($comentarios, 0, $this);
+//    mostrarComentarios($comentarios, 0, $this);
     echo '<p>Generado: '.date(DATE_ATOM).'</p>';
     $buffer = ob_get_flush();
     if($cache) {
@@ -120,12 +120,12 @@ else {
     }
 }
 
-if($post->comentarios_habilitados) {
-//    $this->renderPartial('comentar', array(
-//        'post' => $post,
-//        'comentario' => $new_comment,
-//    ));
-}
+//if($post->comentarios_habilitados) {
+////    $this->renderPartial('comentar', array(
+////        'post' => $post,
+////        'comentario' => $new_comment,
+////    ));
+//}
 
 ?>
 
@@ -141,16 +141,15 @@ if($post->comentarios_habilitados) {
 
 <?php
 
-$ts = Tag::model()->with('posts_count')->findAll();
-$tags = array();
-foreach($ts AS $t) {
-    $tags[$t->tag." ({$t->posts_count})"] = (int) $t->posts_count;
-//    var_dump($t->titulo, $t->posts_count);
-}
-//var_dump($ts, $tags);
-//return;
-Yii::import('ext.TagCloud');
-$this->widget('TagCloud', array('tags' => $tags));
+//$ts = Tag::model()->with('posts_count')->findAll();
+//$tags = array();
+//foreach($ts AS $t) {
+//    $tags[$t->tag." ({$t->posts_count})"] = (int) $t->posts_count;
+////    var_dump($t->titulo, $t->posts_count);
+//}
+
+//Yii::import('ext.TagCloud');
+//$this->widget('TagCloud', array('tags' => $tags));
 
 ?>
 

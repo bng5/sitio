@@ -15,7 +15,7 @@
  * @property string $resumen
  * @property PostContent $post
  */
-class Post extends CActiveRecord {
+class Post extends ActiveRecord { // CActiveRecord {
     
     private $_post;
     private $_toc;
@@ -27,15 +27,15 @@ class Post extends CActiveRecord {
 	 * @param string $className active record class name.
 	 * @return Post the static model class
 	 */
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+//	public static function model($className = __CLASS__) {
+//		return parent::model($className);
+//	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
-		return 'post';
+	public function database() {
+		return 'bng5_blikiposts';
 	}
     
 //    public function setAttributes($values, $safeOnly = true) {
@@ -86,6 +86,10 @@ class Post extends CActiveRecord {
 		);
 	}
 
+    public function attributeNames() {
+        
+    }
+    
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.

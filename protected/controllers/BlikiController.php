@@ -114,20 +114,9 @@ class BlikiController extends Controller {
 
     public function actionPost() {
         $path = $this->actionParams['item'];
-        $model = Post::model()
-//            ->with(array(
-//                'comments' => array(
-//                    'on' => 'status=1',
-//                    'order' => 'comments.fecha_creado',
-//                ),
-//            ))
-            ->find(array(
-                'condition' => 'path = :path',
-                'params' => array(':path' => $path),
-        ));
-
+        $model = Post::model()->get($path);
         if(!$model) {
-            throw new CHttpException(404, 'No existe el artículo '.$path.'.');
+            throw new CHttpException(404, "No existe el artículo {$path}.");
         }
         
         // Uncomment the following line if AJAX validation is needed
@@ -138,52 +127,25 @@ class BlikiController extends Controller {
 //        }
 
         $use_cache = false;
-//        $use_cache = true;
-//        if(array_key_exists('cache', $this->actionParams)) {
-//            $cache = $this->actionParams['cache'];
-//            switch($cache) {
-//                case 'clear':
-//                    Yii::app()->cache->delete('post:'.$model->id);
-//                    Yii::app()->cache->delete('come:'.$model->id);
-//                    $model->loadSource();
-//                    $model->save();
-//                    break;
-//                default:
-//                case 'no':
-//                    $model->loadSource();
-//                    $use_cache = false;
-//                    break;
-//            }
-//        }
-        
-        
-        
-/******************************************************************************/
-
-//var_dump($model->post);
-//exit;
-//$model->loadSource();
-
-/******************************************************************************/
-        array_unshift($this->pageTitle, $model->post->titulo);
+        array_unshift($this->pageTitle, $model->title);
         $this->breadcrumbs = array(
             'Bliki' => array('bliki/'),
-            $model->post->titulo,
+            $model->title,
         );
-        Yii::app()->clientScript->registerLinkTag('alternate', 'application/xml', "/bliki/{$model->path}/source");
+        Yii::app()->clientScript->registerLinkTag('alternate', 'application/xml', "/bliki/{$path}/source");
         Yii::app()->clientScript->registerCssFile('/css/avisos.css');
 
-        $renderer = $this->___renderer($model->post->tokens);
-        
-        $new_comment = $model->comentarios_habilitados ? new Comment() : false;
+        $renderer = $this->___renderer($model->tokens);
+
+        $new_comment = property_exists($model, 'comentarios_habilitados') ? new Comment() : false;
 
         $view = $this->render('post', array(
-            'path' => $model->path,
-            'titulo' => $model->post->titulo,
+            'path' => $path,
+            'titulo' => $model->title,
             'html' => $renderer->__toString(),
-            'post' => $model->post,
+            'post' => $model,//->post,
             'new_comment' => $new_comment,
-            'comments' => $model->comments,
+//            'comments' => $model->comments,
             'cache' => $use_cache,
         ), true);
         echo $view;
@@ -191,9 +153,8 @@ class BlikiController extends Controller {
     
     private function ___renderer($arr) {
         $renderer = new BlikiRenderer();
-
         foreach($arr AS $instruction) {
-            $renderer->append($instruction);
+            $renderer->append((array) $instruction);
         }
         return $renderer;
     }

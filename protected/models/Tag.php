@@ -9,7 +9,7 @@
  * @property string $titulo
  * @property string $descripcion
  */
-class Tag extends CActiveRecord {
+class Tag extends ActiveRecord {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -22,7 +22,7 @@ class Tag extends CActiveRecord {
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function database() {
 		return 'tag';
 	}
 
