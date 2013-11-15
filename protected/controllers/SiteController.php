@@ -36,13 +36,12 @@ class SiteController extends Controller {
                 //'currentPage' => --$pag,
                 'pageVar' => 'pagina',
                 'route' => '/bliki',//$request['path'],
-                'params'=> $params,
+//                'params'=> $params,
             ),
         ));
         
 		$this->render('index', array(
             'dataProvider'=>$dataProvider,
-//            'blogroll_items' => $blogroll_items,
         ));
 	}
     
@@ -50,22 +49,30 @@ class SiteController extends Controller {
         $this->render('mapa');
     }
 
+    public function actionStatus() {
+        if(array_key_exists('id', $this->actionParams) && is_numeric($this->actionParams['id'])) {
+            throw new CHttpException($this->actionParams['id']);
+        }
+    }
+
 	/**
 	 * This is the action to handle external exceptions.
 	 */
 	public function actionError() {
-		$error = Yii::app()->errorHandler->error;
+        $error = Yii::app()->errorHandler->error;
 //        'type' => string 'CHttpException'
 //var_dump(
 //    $error,
 //    $this
 //);
-    if($error['code'] == 404) {
-        $this->render('error_404', $error);
-    }
-    else {
-        $this->render('error', $error);
-    }
+
+        try {
+            $this->render('error_'.$error['code'], $error);
+        } catch (Exception $exc) {
+//            echo $exc->getTraceAsString();
+            $this->render('error', $error);
+        }
+
 //		if($error=Yii::app()->errorHandler->error) {
 //			if(Yii::app()->request->isAjaxRequest)
 //				echo $error['message'];

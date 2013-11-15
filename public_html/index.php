@@ -1,5 +1,10 @@
 <?php
 
+ini_set('display_errors', 'on');
+ini_set('log_errors', 'on');
+error_reporting(E_ALL | E_STRICT);
+//error_reporting(0);
+
 $yii = '/usr/share/php/yii/yii.php';
 $config = dirname(dirname(__FILE__)).'/protected/config/main.php';
 

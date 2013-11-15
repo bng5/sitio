@@ -114,7 +114,6 @@ class BlikiController extends Controller {
 
     public function actionPost() {
         $path = $this->actionParams['item'];
-        
         $model = Post::model()
 //            ->with(array(
 //                'comments' => array(
@@ -175,8 +174,7 @@ class BlikiController extends Controller {
         Yii::app()->clientScript->registerCssFile('/css/avisos.css');
 
         $renderer = $this->___renderer($model->post->tokens);
-
-
+        
         $new_comment = $model->comentarios_habilitados ? new Comment() : false;
 
         $view = $this->render('post', array(
@@ -193,6 +191,7 @@ class BlikiController extends Controller {
     
     private function ___renderer($arr) {
         $renderer = new BlikiRenderer();
+
         foreach($arr AS $instruction) {
             $renderer->append($instruction);
         }

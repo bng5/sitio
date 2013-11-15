@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+    overflow="hidden" width="900" height="100">
+	<defs>
+		<linearGradient id="dojoxUnique1" gradientUnits="userSpaceOnUse" x1="0.00000000" y1="0.00000000" x2="0.00000000" y2="100.00000000">
+			<stop offset="0.00000000" stop-color="rgb(219, 219, 219)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(239, 239, 239)" stop-opacity="1"/>
+		</linearGradient>
+		<linearGradient id="dojoxUnique2" gradientUnits="userSpaceOnUse" x1="21.00000000" y1="15.50000000" x2="868.43324317" y2="15.50000000">
+			<stop offset="0.00000000" stop-color="rgb(42, 110, 173)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(58, 153, 242)" stop-opacity="1"/>
+		</linearGradient>
+		<linearGradient id="dojoxUnique3" gradientUnits="userSpaceOnUse" x1="21.00000000" y1="15.50000000" x2="783.68991886" y2="15.50000000">
+			<stop offset="0.00000000" stop-color="rgb(97, 62, 4)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(153, 97, 6)" stop-opacity="1"/>
+		</linearGradient>
+		<linearGradient id="dojoxUnique4" gradientUnits="userSpaceOnUse" x1="21.00000000" y1="15.50000000" x2="588.78027293" y2="15.50000000">
+			<stop offset="0.00000000" stop-color="rgb(14, 57, 97)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(21, 88, 150)" stop-opacity="1"/>
+		</linearGradient>
+		<linearGradient id="dojoxUnique5" gradientUnits="userSpaceOnUse" x1="21.00000000" y1="15.50000000" x2="444.71662159" y2="15.50000000">
+			<stop offset="0.00000000" stop-color="rgb(85, 170, 250)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(63, 127, 186)" stop-opacity="1"/>
+		</linearGradient>
+		<linearGradient id="dojoxUnique6" gradientUnits="userSpaceOnUse" x1="21.00000000" y1="15.50000000" x2="368.44762970" y2="15.50000000">
+			<stop offset="0.00000000" stop-color="rgb(173, 123, 42)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(219, 155, 53)" stop-opacity="1"/>
+		</linearGradient>
+		<linearGradient id="dojoxUnique7" gradientUnits="userSpaceOnUse" x1="21.00000000" y1="15.50000000" x2="232.85831079" y2="15.50000000">
+			<stop offset="0.00000000" stop-color="rgb(42, 110, 173)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(58, 153, 242)" stop-opacity="1"/>
+		</linearGradient>
+		<linearGradient id="dojoxUnique8" gradientUnits="userSpaceOnUse" x1="21.00000000" y1="15.50000000" x2="173.53798377" y2="15.50000000">
+			<stop offset="0.00000000" stop-color="rgb(97, 62, 4)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(153, 97, 6)" stop-opacity="1"/>
+		</linearGradient>
+		<linearGradient id="dojoxUnique9" gradientUnits="userSpaceOnUse" x1="21.00000000" y1="15.50000000" x2="105.74332432" y2="15.50000000">
+			<stop offset="0.00000000" stop-color="rgb(14, 57, 97)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(21, 88, 150)" stop-opacity="1"/>
+		</linearGradient>
+		<linearGradient id="dojoxUnique10" gradientUnits="userSpaceOnUse" x1="21.00000000" y1="15.50000000" x2="105.74332432" y2="15.50000000">
+			<stop offset="0.00000000" stop-color="rgb(14, 57, 97)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(21, 88, 150)" stop-opacity="1"/>
+		</linearGradient>
+		<linearGradient id="dojoxUnique11" gradientUnits="userSpaceOnUse" x1="21.00000000" y1="15.50000000" x2="105.74332432" y2="15.50000000">
+			<stop offset="0.00000000" stop-color="rgb(14, 57, 97)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(21, 88, 150)" stop-opacity="1"/>
+		</linearGradient>
+		<linearGradient id="dojoxUnique12" gradientUnits="userSpaceOnUse" x1="21.00000000" y1="15.50000000" x2="105.74332432" y2="15.50000000">
+			<stop offset="0.00000000" stop-color="rgb(14, 57, 97)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(21, 88, 150)" stop-opacity="1"/>
+		</linearGradient>
+		<linearGradient id="dojoxUnique13" gradientUnits="userSpaceOnUse" x1="21.00000000" y1="15.50000000" x2="105.74332432" y2="15.50000000">
+			<stop offset="0.00000000" stop-color="rgb(14, 57, 97)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(21, 88, 150)" stop-opacity="1"/>
+		</linearGradient>
+		<linearGradient id="dojoxUnique14" gradientUnits="userSpaceOnUse" x1="21.00000000" y1="15.50000000" x2="232.85831079" y2="15.50000000">
+			<stop offset="0.00000000" stop-color="rgb(42, 110, 173)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(58, 153, 242)" stop-opacity="1"/>
+		</linearGradient>
+		<linearGradient id="dojoxUnique15" gradientUnits="userSpaceOnUse" x1="21.00000000" y1="15.50000000" x2="368.44762970" y2="15.50000000">
+			<stop offset="0.00000000" stop-color="rgb(173, 123, 42)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(219, 155, 53)" stop-opacity="1"/>
+		</linearGradient>
+		<linearGradient id="dojoxUnique16" gradientUnits="userSpaceOnUse" x1="21.00000000" y1="15.50000000" x2="588.78027293" y2="15.50000000">
+			<stop offset="0.00000000" stop-color="rgb(14, 57, 97)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(21, 88, 150)" stop-opacity="1"/>
+		</linearGradient>
+		<linearGradient id="dojoxUnique17" gradientUnits="userSpaceOnUse" x1="21.00000000" y1="15.50000000" x2="588.78027293" y2="15.50000000">
+			<stop offset="0.00000000" stop-color="rgb(14, 57, 97)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(21, 88, 150)" stop-opacity="1"/>
+		</linearGradient>
+		<linearGradient id="dojoxUnique18" gradientUnits="userSpaceOnUse" x1="21.00000000" y1="15.50000000" x2="783.68991886" y2="15.50000000">
+			<stop offset="0.00000000" stop-color="rgb(97, 62, 4)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(153, 97, 6)" stop-opacity="1"/>
+		</linearGradient>
+		<linearGradient id="dojoxUnique19" gradientUnits="userSpaceOnUse" x1="21.00000000" y1="15.50000000" x2="588.78027293" y2="15.50000000">
+			<stop offset="0.00000000" stop-color="rgb(14, 57, 97)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(21, 88, 150)" stop-opacity="1"/>
+		</linearGradient>
+		<linearGradient id="dojoxUnique20" gradientUnits="userSpaceOnUse" x1="21.00000000" y1="15.50000000" x2="105.74332432" y2="15.50000000">
+			<stop offset="0.00000000" stop-color="rgb(14, 57, 97)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(21, 88, 150)" stop-opacity="1"/>
+		</linearGradient>
+		<linearGradient id="dojoxUnique21" gradientUnits="userSpaceOnUse" x1="21.00000000" y1="15.50000000" x2="588.78027293" y2="15.50000000">
+			<stop offset="0.00000000" stop-color="rgb(14, 57, 97)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(21, 88, 150)" stop-opacity="1"/>
+		</linearGradient>
+		<linearGradient id="dojoxUnique22" gradientUnits="userSpaceOnUse" x1="21.00000000" y1="15.50000000" x2="368.44762970" y2="15.50000000">
+			<stop offset="0.00000000" stop-color="rgb(173, 123, 42)" stop-opacity="1"/>
+			<stop offset="1.00000000" stop-color="rgb(219, 155, 53)" stop-opacity="1"/>
+		</linearGradient>
+	</defs>
+	<rect fill="url(#dojoxUnique1)" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="20" y="14.5" width="849.4332431738103" height="44.933243173810304" ry="0" rx="0" fill-rule="evenodd"/>
+	<g>
+		<g>
+			<rect fill="url(#dojoxUnique2)" stroke="rgb(255, 255, 255)" stroke-opacity="1" stroke-width="2.5" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="21" y="15.5" width="847.4332431738103" height="42.933243173810304" ry="0" rx="0" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+		</g>
+		<g>
+			<rect fill="url(#dojoxUnique18)" stroke="rgb(255, 255, 255)" stroke-opacity="1" stroke-width="2.5" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="21" y="15.5" width="762.6899188564292" height="42.933243173810304" ry="0" rx="0" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+		</g>
+		<g>
+			<rect fill="url(#dojoxUnique21)" stroke="rgb(255, 255, 255)" stroke-opacity="1" stroke-width="2.5" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="21" y="15.5" width="567.7802729264529" height="42.933243173810304" ry="0" rx="0" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+		</g>
+		<g>
+			<rect fill="url(#dojoxUnique5)" stroke="rgb(255, 255, 255)" stroke-opacity="1" stroke-width="2.5" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="21" y="15.5" width="423.71662158690515" height="42.933243173810304" ry="0" rx="0" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+		</g>
+		<g>
+			<rect fill="url(#dojoxUnique22)" stroke="rgb(255, 255, 255)" stroke-opacity="1" stroke-width="2.5" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="21" y="15.5" width="347.44762970126214" height="42.933243173810304" ry="0" rx="0" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+		</g>
+		<g>
+			<rect fill="url(#dojoxUnique14)" stroke="rgb(255, 255, 255)" stroke-opacity="1" stroke-width="2.5" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="21" y="15.5" width="211.85831079345257" height="42.933243173810304" ry="0" rx="0" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+		</g>
+		<g>
+			<rect fill="url(#dojoxUnique8)" stroke="rgb(255, 255, 255)" stroke-opacity="1" stroke-width="2.5" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="21" y="15.5" width="152.53798377128584" height="42.933243173810304" ry="0" rx="0" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+		</g>
+		<g>
+			<rect fill="url(#dojoxUnique20)" stroke="rgb(255, 255, 255)" stroke-opacity="1" stroke-width="2.5" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="21" y="15.5" width="84.74332431738102" height="42.933243173810304" ry="0" rx="0" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+		</g>
+	</g>
+	<rect fill="none" fill-opacity="0" stroke="rgb(181, 188, 199)" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="0" y="0" width="899" height="99" ry="0" rx="0" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+	<g>
+		<line fill="none" fill-opacity="0" stroke="rgb(136, 140, 118)" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x1="21" y1="58.433243173810304" x2="868.4332431738103" y2="58.433243173810304" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+		<line fill="none" fill-opacity="0" stroke="rgb(136, 140, 118)" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x1="21" y1="58.433243173810304" x2="21" y2="64.4332431738103" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+		<text fill="rgb(0, 0, 0)" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="21" y="68.4332431738103" text-anchor="start" text-decoration="none" rotate="0" kerning="auto" text-rendering="optimizeLegibility" font-style="normal" font-variant="normal" font-weight="normal" font-size="7pt" font-family="Verdana, Arial, sans-serif" fill-rule="evenodd" transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,50.80703457,5.19439046)">2002</text>
+		<line fill="none" fill-opacity="0" stroke="rgb(136, 140, 118)" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x1="868.4332431738103" y1="58.433243173810304" x2="868.4332431738103" y2="64.4332431738103" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+		<text fill="rgb(0, 0, 0)" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="868.4332431738103" y="68.4332431738103" text-anchor="start" text-decoration="none" rotate="0" kerning="auto" text-rendering="optimizeLegibility" font-style="normal" font-variant="normal" font-weight="normal" font-size="7pt" font-family="Verdana, Arial, sans-serif" fill-rule="evenodd" transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,299.01448489,-594.03140239)">2012</text>
+		<line fill="none" fill-opacity="0" stroke="rgb(136, 140, 118)" stroke-opacity="1" stroke-width="0.8" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x1="105.74332431738102" y1="58.433243173810304" x2="105.74332431738102" y2="61.433243173810304" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+		<text fill="rgb(0, 0, 0)" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="105.74332431738102" y="65.4332431738103" text-anchor="start" text-decoration="none" rotate="0" kerning="auto" text-rendering="optimizeLegibility" font-style="normal" font-variant="normal" font-weight="normal" font-size="7pt" font-family="Verdana, Arial, sans-serif" fill-rule="evenodd" transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,73.50645926,-55.60686848)">2003</text>
+		<line fill="none" fill-opacity="0" stroke="rgb(136, 140, 118)" stroke-opacity="1" stroke-width="0.8" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x1="190.48664863476205" y1="58.433243173810304" x2="190.48664863476205" y2="61.433243173810304" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+		<text fill="rgb(0, 0, 0)" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="190.48664863476205" y="65.4332431738103" text-anchor="start" text-decoration="none" rotate="0" kerning="auto" text-rendering="optimizeLegibility" font-style="normal" font-variant="normal" font-weight="normal" font-size="7pt" font-family="Verdana, Arial, sans-serif" fill-rule="evenodd" transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,98.32720429,-115.52944776)">2004</text>
+		<line fill="none" fill-opacity="0" stroke="rgb(136, 140, 118)" stroke-opacity="1" stroke-width="0.8" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x1="275.22997295214304" y1="58.433243173810304" x2="275.22997295214304" y2="61.433243173810304" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+		<text fill="rgb(0, 0, 0)" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="275.22997295214304" y="65.4332431738103" text-anchor="start" text-decoration="none" rotate="0" kerning="auto" text-rendering="optimizeLegibility" font-style="normal" font-variant="normal" font-weight="normal" font-size="7pt" font-family="Verdana, Arial, sans-serif" fill-rule="evenodd" transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,123.14794932,-175.45202705)">2005</text>
+		<line fill="none" fill-opacity="0" stroke="rgb(136, 140, 118)" stroke-opacity="1" stroke-width="0.8" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x1="359.9732972695241" y1="58.433243173810304" x2="359.9732972695241" y2="61.433243173810304" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+		<text fill="rgb(0, 0, 0)" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="359.9732972695241" y="65.4332431738103" text-anchor="start" text-decoration="none" rotate="0" kerning="auto" text-rendering="optimizeLegibility" font-style="normal" font-variant="normal" font-weight="normal" font-size="7pt" font-family="Verdana, Arial, sans-serif" fill-rule="evenodd" transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,147.96869435,-235.37460633)">2006</text>
+		<line fill="none" fill-opacity="0" stroke="rgb(136, 140, 118)" stroke-opacity="1" stroke-width="0.8" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x1="444.71662158690515" y1="58.433243173810304" x2="444.71662158690515" y2="61.433243173810304" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+		<text fill="rgb(0, 0, 0)" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="444.71662158690515" y="65.4332431738103" text-anchor="start" text-decoration="none" rotate="0" kerning="auto" text-rendering="optimizeLegibility" font-style="normal" font-variant="normal" font-weight="normal" font-size="7pt" font-family="Verdana, Arial, sans-serif" fill-rule="evenodd" transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,172.78943939,-295.29718562)">2007</text>
+		<line fill="none" fill-opacity="0" stroke="rgb(136, 140, 118)" stroke-opacity="1" stroke-width="0.8" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x1="529.4599459042861" y1="58.433243173810304" x2="529.4599459042861" y2="61.433243173810304" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+		<text fill="rgb(0, 0, 0)" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="529.4599459042861" y="65.4332431738103" text-anchor="start" text-decoration="none" rotate="0" kerning="auto" text-rendering="optimizeLegibility" font-style="normal" font-variant="normal" font-weight="normal" font-size="7pt" font-family="Verdana, Arial, sans-serif" fill-rule="evenodd" transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,197.61018442,-355.21976491)">2008</text>
+		<line fill="none" fill-opacity="0" stroke="rgb(136, 140, 118)" stroke-opacity="1" stroke-width="0.8" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x1="614.2032702216671" y1="58.433243173810304" x2="614.2032702216671" y2="61.433243173810304" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+		<text fill="rgb(0, 0, 0)" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="614.2032702216671" y="65.4332431738103" text-anchor="start" text-decoration="none" rotate="0" kerning="auto" text-rendering="optimizeLegibility" font-style="normal" font-variant="normal" font-weight="normal" font-size="7pt" font-family="Verdana, Arial, sans-serif" fill-rule="evenodd" transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,222.43092945,-415.14234419)">2009</text>
+		<line fill="none" fill-opacity="0" stroke="rgb(136, 140, 118)" stroke-opacity="1" stroke-width="0.8" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x1="698.9465945390482" y1="58.433243173810304" x2="698.9465945390482" y2="61.433243173810304" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+		<text fill="rgb(0, 0, 0)" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="698.9465945390482" y="65.4332431738103" text-anchor="start" text-decoration="none" rotate="0" kerning="auto" text-rendering="optimizeLegibility" font-style="normal" font-variant="normal" font-weight="normal" font-size="7pt" font-family="Verdana, Arial, sans-serif" fill-rule="evenodd" transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,247.25167448,-475.06492348)">2010</text>
+		<line fill="none" fill-opacity="0" stroke="rgb(136, 140, 118)" stroke-opacity="1" stroke-width="0.8" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x1="783.6899188564292" y1="58.433243173810304" x2="783.6899188564292" y2="61.433243173810304" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+		<text fill="rgb(0, 0, 0)" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="783.6899188564292" y="65.4332431738103" text-anchor="start" text-decoration="none" rotate="0" kerning="auto" text-rendering="optimizeLegibility" font-style="normal" font-variant="normal" font-weight="normal" font-size="7pt" font-family="Verdana, Arial, sans-serif" fill-rule="evenodd" transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,272.07241952,-534.98750276)">2011</text>
+	</g>
+	<g>
+		<line fill="none" fill-opacity="0" stroke="rgb(136, 140, 118)" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x1="21" y1="58.433243173810304" x2="21" y2="15.5" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+		<line fill="none" fill-opacity="0" stroke="rgb(136, 140, 118)" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x1="21" y1="36.96662158690515" x2="15" y2="36.96662158690515" stroke-dasharray="none" dojoGfxStrokeStyle="solid"/>
+	</g>
+</svg>

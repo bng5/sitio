@@ -166,6 +166,24 @@ element.style {
     max-width: 970px;
 }
 
+@media all and (min-width: 640px) {
+    #articulo {
+        float: left;
+        width: 700px;
+    }
+    #lateral {
+        float: right;
+        width: 260px;
+    }
+}	
+
+/*@media all and (max-width: 2000px) {
+	#main { background-color: blue; }
+}*/
+
+
+
+
 h1 {
     margin: 0 0 0.67em 0;
 }
@@ -232,6 +250,9 @@ div.comentario .meta {
     margin-top: 0;
 }
 
+.tagCloud {
+    text-align: center;
+}
 .breadcrumbs {
     margin: 0 auto;/* 30px;*/
     max-width: 970px;
@@ -244,7 +265,7 @@ div.comentario .meta {
     float: right;
 }
 .help {
-    background: url("../images/icons/help_icon.png") no-repeat scroll 0 0 transparent;
+    background: url("../img/icons/help_icon.png") no-repeat scroll 0 0 transparent;
     float: left;
     height: 16px;
     position: relative;
@@ -272,6 +293,7 @@ div.comentario .meta {
 }
 
 
+dl.source dt,
 dl.file dt {
 /*    -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
@@ -290,7 +312,17 @@ dl.file dt {
     padding: 0.3em 0.6em 0.1em;
 }
 
+dl.source dt {
+    background-position: 10px 2px;
+    background-repeat: no-repeat;
+    padding-left: 31px;
+}
+dl.source.php dt {
+    background-image: url("/img/splitbrain/fileicons/php.png");
+}
 
+
+dl.source dt a,
 dl.file dt a {
     background-color: transparent;
     display: block;
@@ -306,15 +338,16 @@ a.mediafile {
 }
 
 .mf_asc {
-    background-image: url("/images/splitbrain/fileicons/asc.png");
+    background-image: url("/img/splitbrain/fileicons/asc.png");
 }
 .mf_php {
-    background-image: url("/images/splitbrain/fileicons/php.png");
+    background-image: url("/img/splitbrain/fileicons/php.png");
 }
 .mf_pub {
-    background-image: url("/images/splitbrain/fileicons/txt.png");
+    background-image: url("/img/splitbrain/fileicons/txt.png");
 }
 
+dl.source dd,
 dl.file dd {
     clear: left;
     margin: 0;
@@ -484,3 +517,34 @@ div.fuentes {
 .fecha {
     color: #333333;
 }
+
+/*
+ *
+ */
+.error_404 {
+    height: 219px;
+    /*padding-left: 485px;*/
+    padding-top: 120px;
+    position: relative;
+}
+.error_404 h2,
+.error_404 p {
+    clear: right;
+    float: right;
+    min-width: 50%;
+    /*margin: 0 0 15px 485px;*/
+    /*width: 485px;*/
+}
+.error_404 .imagen {
+    /*float: left;*/
+    position: absolute;
+    background-image: url("/img/404_coetc");
+    background-repeat: no-repeat;
+    /*background: url("/img/404_coetc") 50% 50% no-repeat;*/
+    height: 378px;
+    width: 480px;
+    top: 0;
+    left: 0;
+}
+
+

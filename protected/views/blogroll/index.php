@@ -52,9 +52,19 @@ if($mensaje) {
 <?php
 
 if($feed) {
+    $feed_types = array(
+        1 => 'RSS',
+        2 => 'Atom',
+    );
     echo "
         <h2>{$feed->title}</h2>
-        <p>{$feed->description}</p>";
+        <p>{$feed->description}</p>
+        <dl>
+            <dt>URL:</dt>
+            <dd>".CHtml::link($feed->link, $feed->link, array('rel' => 'external'))."</dd>
+            <dt>{$feed_types[$feed->type]}:</dt>
+            <dd>".CHtml::link($feed->url, $feed->url, array('rel' => 'external'))."</dd>
+        </dl>";
 }
 
 ?>
@@ -66,7 +76,7 @@ if($feed) {
 $id = $feed ? 
     $feed->id :
     'all';
-if($this->beginCache("blogroll_:{$id}", array('duration' => 3600))) {
+if($this->beginCache("blogroll1:{$id}", array('duration' => 600))) {
     $hoy = getdate();
     $meses = array(
         1 => 'ene',
@@ -86,7 +96,7 @@ if($this->beginCache("blogroll_:{$id}", array('duration' => 3600))) {
     foreach($posts AS $item) {
         $pubDate = getdate($item->pubDate);
         $fecha = ($pubDate['yday'] == $hoy['yday'] && $pubDate['year'] == $hoy['year']) ?
-            "{$pubDate['hours']}:{$pubDate['minutes']} hs." : 
+            date('G:i', $item->pubDate).' hs.' : //"{$pubDate['hours']}:{$pubDate['minutes']} hs." : 
             "{$pubDate['mday']}-{$meses[$pubDate['mon']]}-{$pubDate['year']}";
         echo "
             <li><span title=\"{$item->feed->title}\" class=\"autor\"><img src=\"https://plus.google.com/_/favicon?domain={$fuentes[$item->feed_id]}\" alt=\"[Favicon]\" /> {$item->feed->title}</span> <a href=\"{$item->link}\" rel=\"external\">{$item->title}</a> <span class=\"fecha\" >{$fecha}</span></li>";
