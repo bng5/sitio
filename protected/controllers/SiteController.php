@@ -63,10 +63,7 @@ class SiteController extends Controller {
 	public function actionError() {
         $error = Yii::app()->errorHandler->error;
 //        'type' => string 'CHttpException'
-//var_dump(
-//    $error,
-//    $this
-//);
+var_dump($error);
 
         try {
             $this->render('error_'.$error['code'], $error);

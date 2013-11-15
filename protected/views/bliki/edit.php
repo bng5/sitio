@@ -139,7 +139,7 @@ $this->breadcrumbs = array(
 	'Bliki' => array('bliki/'),
 );
 
-if($model->isNewRecord) {
+if(property_exists($model, '_rev')) {
     $accion_actual = 'Creando '.$path;
     $this->breadcrumbs[] = $accion_actual;
 }

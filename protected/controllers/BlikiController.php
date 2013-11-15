@@ -181,11 +181,12 @@ class BlikiController extends Controller {
         $model = $this->loadModel($path);
         $this->render('edit', array(
             'path' => $path,
-            'estado' => $model->estado,
-            'model' => $model->post,
+//            'estado' => $model->estado,
+            'model' => $model,
             'error' => $error,
         ));
 return;
+
         if($model) {
             $model->loadSource();
 //var_dump($model);
