@@ -155,15 +155,43 @@ var_dump($_GET);
 */
 
 //echo CHtml::link('Multi-level pie chart', array('/multilevelpiechart'));
+
+
+
+if(isset($model)) {
+    foreach($model->rows as $row) {
+
+        $data = $row->value;
+
 ?>
 
+        <h2><?php 
+//    echo $data->titulo;
+    echo CHtml::link(CHtml::encode($data->title), array('bliki/'.$row->id));
+    ?></h2>
+<?php
+continue;
+?>
+        <b><?php echo CHtml::encode($data->getAttributeLabel('fecha_creado')); ?>:</b>
+        <?php echo $this->formato_fecha($data->fecha_creado); ?> (<?php echo gettype($data->fecha_creado).' '.$data->fecha_creado; ?>)
+        <br />
 
+        <b><?php echo CHtml::encode($data->getAttributeLabel('fecha_modificado')); ?>:</b>
+        <?php echo $this->formato_fecha($data->fecha_modificado); ?> (<?php echo gettype($data->fecha_modificado).' '.$data->fecha_modificado; ?>)
+        <br />
 
+        <b><?php echo CHtml::encode($data->getAttributeLabel('resumen')); ?>:</b>
+        <?php echo CHtml::encode($data->resumen); ?>
+        <br />
+    
 <?php
 
-if($dataProvider) {
+    }
+}
+        
+if(isset($dataProvider)) {
     
-foreach($dataProvider->data as $data) {
+    foreach($dataProvider->data as $data) {
 
 ?>
 
@@ -191,16 +219,16 @@ foreach($dataProvider->data as $data) {
 
 <?php
 
-}
+    }
 
 //var_dump($dataProvider->pagination->getPageCount());
 //$paginado = new Html_Paginado($dataProvider->pagination->getPageCount(), $dataProvider->pagination->pageVar, null);
 //echo $paginado;
 
 
-Yii::import('ext.MyLinkPager');
-$this->widget('MyLinkPager', array(
-    'pages' => $dataProvider->pagination,
-    'header' => '',
-));
+    Yii::import('ext.MyLinkPager');
+    $this->widget('MyLinkPager', array(
+        'pages' => $dataProvider->pagination,
+        'header' => '',
+    ));
 }

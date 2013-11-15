@@ -2,7 +2,6 @@
 
 Yii::app()->clientScript->registerLinkTag('alternate', 'application/json', '/bliki.json');
 
-
 ?>
 
 <h1>Bliki</h1>
@@ -78,15 +77,6 @@ class Html_Paginado {// implements Vista_Admin_iComponente
 		//return $retorno;
 	}
 }
-
-
-
-
-
-
-
-
-
 
 
 

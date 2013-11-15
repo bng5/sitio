@@ -1,27 +1,30 @@
 <?php /* @var $this Controller */ ?>
 <?php $this->beginContent('//layouts/main'); ?>
+
 <div id="main" class="column2">
     <div id="sidebar-right">
         <ul>
             <li><a href="/multilevelpiechart">Multi-level pie chart</a></li>
         </ul>
         
-        
-        
+<?php
+        $blogroll_items = array();//FeedItem::model()->with('feed')->findAll($criteria);
+        if($blogroll_items) {
+            
+?>
         <h3>Últimas entradas del <a href="/blogroll">Blogroll</a></h3>
         <?php
 
-        $criteria = array(
+            $criteria = array(
 //            'condition' => implode(' AND ', $condition),
 //            'params' => $params,
-            'order' => 'pubDate DESC',
-            'limit' => 10,
-        );
-        $blogroll_items = FeedItem::model()->with('feed')->findAll($criteria);
-        echo "
-            <ul>";
-        foreach($blogroll_items AS $item) {
+                'order' => 'pubDate DESC',
+                'limit' => 10,
+            );
             echo "
+            <ul>";
+            foreach($blogroll_items AS $item) {
+                echo "
                 <li style=\"list-style-image: url('https://plus.google.com/_/favicon?domain=".urlencode($item->feed->link)."');\"><a href=\"{$item->link}\">{$item->title}</a></li>";
 //    [id] => 26
 //    [feed_id] => 2
@@ -32,10 +35,10 @@
 //    [guid] => http://picandocodigo.net/?p=7553
 //    [guid_isPermaLink] => 0
 //    [content_encoded] => 
+            }
+            echo "
+            </ul>";
         }
-        echo "
-            <ul>";
-        
         
         
         
@@ -48,6 +51,7 @@
 //            ));
 //            $this->endWidget();
         ?>
+
     </div>
     <div id="content">
         <?php echo $content; ?>

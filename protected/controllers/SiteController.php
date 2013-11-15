@@ -25,23 +25,25 @@ class SiteController extends Controller {
 	 */
 	public function actionIndex() {
         $this->layout = '//layouts/column2';
-		$dataProvider = new CActiveDataProvider('Post', array(
-            'criteria'=>array(
-                'condition'=>'estado = 1',
-//                'order'=>'create_time DESC',
-//                'with'=>array('author'),
-            ),
-            'pagination'=>array(
-                'pageSize'=>6,
-                //'currentPage' => --$pag,
-                'pageVar' => 'pagina',
-                'route' => '/bliki',//$request['path'],
-//                'params'=> $params,
-            ),
-        ));
+        $list = Post::model()->find('created');
+//		$dataProvider = new CActiveDataProvider('Post', array(
+//            'criteria'=>array(
+//                'condition'=>'estado = 1',
+////                'order'=>'create_time DESC',
+////                'with'=>array('author'),
+//            ),
+//            'pagination'=>array(
+//                'pageSize'=>6,
+//                //'currentPage' => --$pag,
+//                'pageVar' => 'pagina',
+//                'route' => '/bliki',//$request['path'],
+////                'params'=> $params,
+//            ),
+//        ));
         
 		$this->render('index', array(
-            'dataProvider'=>$dataProvider,
+//            'dataProvider'=>$dataProvider,
+            'model' => $list,
         ));
 	}
     
