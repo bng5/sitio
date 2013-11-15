@@ -99,15 +99,37 @@ class Html_Paginado {// implements Vista_Admin_iComponente
 
 //var_dump($dataProvider->pagination->pageCount);
 
-foreach($dataProvider->data as $data) {
 
+echo "
+<pre>
+total_rows - {$model->total_rows}
+offset     - {$model->offset}
+</pre>
+";
+//object(stdClass)#35 (3) {
+//  ["total_rows"]=> int(1)
+//  ["offset"]=> int(0)
+//  ["rows"]=> array(1) {
+//    [0]=> object(stdClass)#36 (3) {
+//      ["id"]=> string(21) "leer_joystick_con_php"
+//      ["key"]=> int(1384479459)
+//      ["value"]=> object(stdClass)#37 (1) {
+//        ["title"]=> string(24) "Leer un joystick con PHP"
+//      }
+//    }
+//  }
+//}
+
+
+foreach($model->rows as $row) {
+
+    $data = $row->value;
 ?>
 
 <div class="view">
-    <h2><?php 
-        echo CHtml::link(CHtml::encode($data->titulo), array($data->path));
-    ?></h2>
-    <?php echo CHtml::encode($data->resumen);
+    <h2><?php echo CHtml::link(CHtml::encode($data->title), array($row->id)); ?></h2>
+    <?php
+    echo CHtml::encode($data->summary);
 /*
     <pre>
         <b><?php echo CHtml::encode($data->getAttributeLabel('fecha_creado')); ?>:</b> <?php echo $this->formato_fecha($data->fecha_creado); ?> (<?php echo gettype($data->fecha_creado).' '.$data->fecha_creado; ?>)
@@ -120,6 +142,7 @@ foreach($dataProvider->data as $data) {
 <?php
 
 }
+return;
 
 //var_dump($dataProvider->pagination->getPageCount());
 //$paginado = new Html_Paginado($dataProvider->pagination->getPageCount(), $dataProvider->pagination->pageVar, null);

@@ -24,8 +24,14 @@ class Couchdb {
             return json_decode($resp->__toString());
         }
         return null;
-var_dump($resp);
-exit;
+    }
+    
+    public function view($database, $view) {
+        $resp = $this->client->get("http://{$this->host}:{$this->port}/{$database}/_design/list/_view/{$view}");
+        if($resp->status == 200) {
+            return json_decode($resp->__toString());
+        }
+        return null;
     }
     
     public function find($id) {

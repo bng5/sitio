@@ -47,7 +47,6 @@ class BlikiController extends Controller {
 	}
     
     public function actionIndex($pagina = 1, $id = null) {
-
         if($id && is_numeric($id)) {
             $post = Post::model()->findByPk($id);
             $this->redirect('/bliki/'.$post->path);
@@ -57,21 +56,28 @@ class BlikiController extends Controller {
 //        $request = parse_url($_SERVER["REQUEST_URI"]);
 //        parse_str($request['query'], $params);
         $params = $this->actionParams;
+
+        $list = Post::model()->find('created');
         
-		$dataProvider = new CActiveDataProvider('Post', array(
-            'criteria'=>array(
-                'condition' => 'estado = 1',
-//                'order'=>'create_time DESC',
-//                'with'=>array('author'),
-            ),
-            'pagination'=>array(
-                'pageSize'=>6,
-                //'currentPage' => --$pag,
-                'pageVar' => 'pagina',
-                'route' => '/bliki',//$request['path'],
-                'params'=> $params,
-            ),
+        $this->render('index',array(
+            'model' => $list,
+//            'dataProvider' => $dataProvider,
         ));
+        return;
+//		$dataProvider = new CActiveDataProvider('Post', array(
+//            'criteria'=>array(
+//                'condition' => 'estado = 1',
+////                'order'=>'create_time DESC',
+////                'with'=>array('author'),
+//            ),
+//            'pagination'=>array(
+//                'pageSize'=>6,
+//                //'currentPage' => --$pag,
+//                'pageVar' => 'pagina',
+//                'route' => '/bliki',//$request['path'],
+//                'params'=> $params,
+//            ),
+//        ));
         
 //        $model = new Suscriptions('search');
 //        $model->unsetAttributes();  // clear any default values

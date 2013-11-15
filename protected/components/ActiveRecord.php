@@ -26,8 +26,8 @@ abstract class ActiveRecord extends CModel {
         
     }
 
-    public function find() {
-        
+    public function find($view) {
+        return Yii::app()->couchdb->view($this->database(), $view);
     }
     
     public function attributeNames() {
