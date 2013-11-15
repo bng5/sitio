@@ -167,15 +167,25 @@ class BlikiController extends Controller {
 
     
     public function actionSource() {
+        header("Content-Type: application/json");
         $model = $this->loadModel($this->actionParams['item']);
-        header("Content-Type: application/xml");
-        readfile("../data/post/{$model->id}.{$model->rev}.xml");
+        echo json_encode($model);
+//        $model = $this->loadModel($this->actionParams['item']);
+//        header("Content-Type: application/xml");
+//        readfile("../data/post/{$model->id}.{$model->rev}.xml");
     }
     
     public function actionEditar() {
         $error = false;
         $path = $this->actionParams['item'];
         $model = $this->loadModel($path);
+        $this->render('edit', array(
+            'path' => $path,
+            'estado' => $model->estado,
+            'model' => $model->post,
+            'error' => $error,
+        ));
+return;
         if($model) {
             $model->loadSource();
 //var_dump($model);
@@ -331,6 +341,9 @@ return;
     }
     
     public function loadModel($item) {
+        $model = Post::model()->get($item);
+        return $model;
+        
         $model = Post::model()->find(array(
             'condition' => 'path=:path',
             'params' => array(':path' => $item),
