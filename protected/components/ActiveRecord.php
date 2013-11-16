@@ -7,11 +7,20 @@
  */
 abstract class ActiveRecord extends CModel {
     
+    protected $_values = array();
+
+
     public static function model($classname = null) {
         if(!$classname) {
             $classname = get_called_class();
         }
         return new $classname;
+    }
+ 
+    public function __get($property) {
+        return property_exists($this->_values, $property) ? 
+            $this->_values->{$property}
+            : null;
     }
     
     public function save() {
@@ -19,7 +28,13 @@ abstract class ActiveRecord extends CModel {
     }
 
     public function get($id) {
-        return Yii::app()->couchdb->get($this->database(), $id);
+
+        $obj = Yii::app()->couchdb->get($this->database(), $id);
+        if(!$obj) {
+            return null;
+        }
+        $this->_values = $obj;
+        return $this;
     }
     
     public function delete() {

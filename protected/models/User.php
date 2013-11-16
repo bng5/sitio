@@ -23,7 +23,7 @@
  * The followings are the available model relations:
  * @property FeedbackMessage[] $feedbackMessages
  */
-class User extends CActiveRecord {
+class User extends ActiveRecord {
 
 //    public $permissions = array();
 
@@ -55,6 +55,10 @@ class User extends CActiveRecord {
     public function tableName() {
         return 'user';
     }
+    
+	public function database() {
+		return 'bng5_users';
+	}
 
     /**
      * @return array validation rules for model attributes.
