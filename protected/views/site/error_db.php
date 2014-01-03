@@ -4,7 +4,7 @@
  * @param int $code Ej: 500
  * @param string $type CHttpException
  * @param int $errorCode Ej: 1
- * @param string $message Ej: No fue posible conectar con la base de datos.
+ * @param string $message Ej: GET /bng5_blikiposts/_design/tags?group=true, status: 404, error: not_found, reason: deleted
  * @param string $file Ej: /home/pablo/public_html/bng5.net/protected/components/Couchdb.php
  * @param int $line Número de línea del archivo $file
  * @param string $trace 
@@ -13,10 +13,18 @@
 ?>
 
 <h1>Error 500</h1>
+<p>Problema con la base de datos.</p>
+<!--
+
+Este es el error:
+<?php echo $message; ?>
+
+<?php echo $trace; ?>
+
+-->
 
 <?php
 
-echo "<p>{$message}</p>\n";
 //echo '<img src="https://pbs.twimg.com/media/AsLvkPpCEAIbCXG.jpg:medium" alt="" />';
 
 

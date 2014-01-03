@@ -159,15 +159,13 @@ var_dump($_GET);
 
 
 if(isset($model)) {
-    foreach($model->rows as $row) {
-
-        $data = $row->value;
-
+    foreach($model as $data) {
+        
 ?>
 
         <h2><?php 
 //    echo $data->titulo;
-    echo CHtml::link(CHtml::encode($data->title), array('bliki/'.$row->id));
+    echo CHtml::link(CHtml::encode($data->title), array('bliki/'.$data->_id));
     ?></h2>
 <?php
 continue;

@@ -62,13 +62,24 @@ class SiteController extends Controller {
 	 */
 	public function actionError() {
         $error = Yii::app()->errorHandler->error;
+        
 //        'type' => string 'CHttpException'
 
         try {
-            $this->render('error_'.$error['code'], $error);
+            switch($error['type']) {
+                case 'CouchdbException':
+                    $this->render('error_db', $error);
+                    break;
+                default:
+                    $this->render('error_'.$error['code'], $error);
+                    break;
+            }
         } catch (Exception $exc) {
 //            echo $exc->getTraceAsString();
-            $this->render('error', $error);
+            $this->render('error', array(
+                'error' => $error,
+                'exception' => $exc,
+            ));
         }
 
 //		if($error=Yii::app()->errorHandler->error) {
@@ -144,4 +155,8 @@ class SiteController extends Controller {
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
+    
+    public function actionCookies() {
+        var_dump($_COOKIE);
+    }
 }

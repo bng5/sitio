@@ -4,6 +4,9 @@
 
 echo __FILE__;
 
+var_dump($error);
+var_dump($exception);
+
 $this->pageTitle=Yii::app()->name . ' - Error';
 $this->breadcrumbs=array(
 	'Error',
