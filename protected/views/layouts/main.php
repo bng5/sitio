@@ -11,6 +11,13 @@ $this->pageTitle = (array) $this->pageTitle;
     <link rel="author" title="Pablo Bangueses" href="http://pablo.bng5.net/" />
     <link rel="alternate" type="application/rss+xml" title="RSS" href="http://bng5.net/feed/rss" charset="utf-8" />
     <?php
+    
+if(!Yii::app()->user->isGuest) {
+    Yii::app()->clientScript->registerScriptFile('http://code.jquery.com/jquery-1.9.1.js');
+    echo '
+    <link rel="stylesheet" type="text/css" href="/css/admin.css" />
+    <script type="text/javascript" src="/js/admin.js"></script>';
+}
 
     // echo Yii::app()->request->baseUrl."/css/screen.css";
 /*
@@ -57,10 +64,10 @@ $breadcrumbs = (isset($this->breadcrumbs) && count($this->breadcrumbs));
         <em><a href="http://bng5.net/" rel="home">Bng5</a> (CouchDB)</em>
         <?php
 
-        if(!Yii::app()->user->isGuest) {
+        //if(!Yii::app()->user->isGuest) {
 //var_dump(Yii::app()->user->isGuest);
-            echo '<div class="usuario">'.Yii::app()->user->name.' '.CHtml::link("Salir", array('site/logout')).'</div>';
-        }
+            //echo '<div class="usuario">'.Yii::app()->user->name.' '.CHtml::link("Salir", array('site/logout'))."</div>\n";
+        //}
 
 //<!-- gcse:searchbox-only></gcse:searchbox-only -->
         ?>
@@ -116,7 +123,8 @@ $breadcrumbs = (isset($this->breadcrumbs) && count($this->breadcrumbs));
 //        <a  href="http://creativecommons.org/licenses/by-sa/3.0/" rel="license" title="CC Attribution-Share Alike 3.0 Unported"><img src="http://bng5.net/lib/images/license/button/cc-by-sa.png" width="80" height="15" alt="" /></a>
 ?>
         
-            <a  href="http://www.php.net" title="Powered by PHP"><img src="/img/button-php" width="80" height="15" alt="Powered by PHP" /></a>
+            <a  href="/sitio/powered_by">Powered by&#8230;</a>
+            <!--<a  href="http://www.php.net" title="Powered by PHP"><img src="/img/button-php" width="80" height="15" alt="Powered by PHP" /></a>-->
             <a  href="http://validator.w3.org/check/referer" title="Valid XHTML 1.1"><img src="/img/button-xhtml1_1" width="80" height="15" alt="Valid XHTML 1.1" /></a>
 <?php
 //      <!-- a  href="http://jigsaw.w3.org/css-validator/check/referer?profile=css3" title="Valid CSS"><img src="/lib/tpl/bliki/images/button-css.png" width="80" height="15" alt="Valid CSS" /></a -->
