@@ -22,6 +22,9 @@ body {
 a {
     text-decoration: none;
 }
+a {
+	color: #336699;
+}
 a:link {
 	color: #336699;
 }
@@ -47,6 +50,7 @@ pre {
     border-radius: 2px 2px 2px 2px;
 /*    box-shadow: 0 0 0.5em #CCCCCC inset;*/
     overflow: auto;
+    margin-top: 0;
     padding: 0.7em 1em;
     word-wrap: normal;
 }
@@ -153,6 +157,8 @@ element.style {
 #footer .botones a {
     display: inline-block;
     height: 15px;
+    vertical-align: middle;
+    font-size: 11px;
 }
 
 #main {
@@ -162,6 +168,7 @@ element.style {
     box-shadow: 0 0 21px 11px #CCCCCC;
 	*/
     margin: 0 auto 30px;
+    overflow: hidden;
     padding: 15px;
     max-width: 970px;
 }
@@ -186,6 +193,8 @@ element.style {
 
 h1 {
     margin: 0 0 0.67em 0;
+    color: #2A2A2A;
+    text-shadow: 2px 2px 2px #AAAAAA;
 }
 
 h2 a.permalink,
@@ -262,8 +271,17 @@ div.comentario .meta {
 #toc {
     background-color: #F9F9F9;
     border: 1px solid #CCCCCC;
+    color: #336699;
     float: right;
+    list-style-type: none;
+    margin: 0 0.5em 0.5em;
+    padding: .5em;
 }
+#toc ul {
+    list-style-type: none;
+    padding-left: 1em;
+}
+
 .help {
     background: url("../img/icons/help_icon.png") no-repeat scroll 0 0 transparent;
     float: left;
@@ -395,22 +413,25 @@ ul.form li {
 .comentarios dt {
     border-top: 1px solid #CCCCCC;
     margin-left: 0;
-    padding: 10px 0 0 65px;
+    padding: 6px 0 0 66px;
     position: relative;
 }
 .comentarios dt.primero {
     border-top-style: none;
 }
+.comentarios dt:target,
+.comentarios dt:target + dd {
+    background-color: #FFFFCA;
+}
 .comentarios dt img {
-    left: 0;
+    left: 6px;
     position: absolute;
 }
 .comentarios dd {
     margin-bottom: 10px;
     margin-left: 0;
     min-height: 27px;
-    padding-bottom: 10px;
-    padding-left: 65px;
+    padding: 10px 6px 10px 66px;
 }
 .comentarios dl dt {
     padding: 10px 0 0 50px;
@@ -418,9 +439,42 @@ ul.form li {
 .comentarios dl dd {
     padding-left: 50px;
 }
+.comentarios .reply {
+    background-image: url("/img/silk/reply");
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+}
+.comentarios .reply span {
+    display: none;
+}
+
+#comentario .toolbar button,
+#comentario .toolbar select {
+    /*background: -moz-linear-gradient(center top , #FFFFFF, #DEDEDE);*/
+    background: linear-gradient(to bottom, #FFFFFF, #DEDEDE);
+    border-color: #808080;
+    border-style: solid solid solid none;
+    border-width: 1px 1px 1px 0;
+    float: left;
+    height: 22px;
+}
+#comentario .toolbar button:first-child {
+    border-left: 1px solid #808080;
+    border-radius: 2px 0 0 2px;
+}
+#comentario .toolbar select {
+    border-right: 1px solid #808080;
+    border-radius: 0 2px 2px 0;
+}
 
 #comentario option.label {
     
+}
+#comentario textarea {
+    /*margin-top: 0;*/
+    width: 99%;
+    resize: vertical;
 }
 
 .auth_buttons {
@@ -547,4 +601,23 @@ div.fuentes {
     left: 0;
 }
 
+.logos {
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+}
 
+.logos li {
+    float: left;
+    list-style-type: none;
+    margin: 0 10px 15px 0;
+}
+.logos a {
+    border-radius: 4px;
+    display: block;
+    overflow: hidden;
+    padding: 4px;
+}
+.logos a:hover {
+    background-color: rgba(200, 200, 200, 0.2);
+}
