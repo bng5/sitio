@@ -23,7 +23,7 @@ class Tag extends ActiveRecord {
 	 * @return string the associated database table name
 	 */
 	public function database() {
-		return 'tag';
+		return 'bng5_bliki';
 	}
 
 	/**
@@ -76,4 +76,11 @@ class Tag extends ActiveRecord {
 			'criteria'=>$criteria,
 		));
 	}
+
+    public function attributeNames() {
+        return array(
+            
+        );
+    }
+
 }

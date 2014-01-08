@@ -25,7 +25,7 @@ class FeedAtom implements Iterator {
     }
     
     public function getDescription() {
-        return $this->xml->subtitle;
+        return (string) $this->xml->subtitle;
     }
 
     public function getLink() {

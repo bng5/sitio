@@ -13,7 +13,7 @@
  * @property integer $whitelist
  * @property string $data
  */
-class Author extends CActiveRecord {
+class Author extends ActiveRecord {
 
     const TIPO_OPENID = 1;
     const TIPO_PERSONA = 2;

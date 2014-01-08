@@ -1,26 +1,32 @@
 <?php
 
 /**
- * This is the model class for table "post".
  *
- * The followings are the available columns in table 'post':
- * @property string $id
+ * @property string $_id
  * @property string $path
- * @property string $titulo
+ * @property string $title
  * @property integer $estado
  * @property integer $fecha_creado
  * @property integer $fecha_modificado
  * @property integer $rev
  * @property integer $comentarios_habilitados
  * @property string $resumen
- * @property PostContent $post
  */
 class Post extends ActiveRecord { // CActiveRecord {
     
-    private $_post;
-    private $_toc;
+    public $type = 'post';
     
-    public $rev = 1;
+    public $path;
+    public $public;
+    public $notoc;
+    public $nocomments;
+    public $title;
+    public $summary;
+    public $created_at;
+    public $updated_at;
+    public $content;
+    public $tags = array();
+    
 
     /**
 	 * Returns the static model of the specified AR class.
@@ -35,7 +41,7 @@ class Post extends ActiveRecord { // CActiveRecord {
 	 * @return string the associated database table name
 	 */
 	public function database() {
-		return 'bng5_blikiposts';
+		return 'bng5_bliki';
 	}
     
 //    public function setAttributes($values, $safeOnly = true) {
@@ -50,26 +56,13 @@ class Post extends ActiveRecord { // CActiveRecord {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('path, titulo', 'required'),
-			array('estado, fecha_creado, fecha_modificado', 'numerical', 'integerOnly'=>true),
-			array('path', 'length', 'max'=>50),
-			array('titulo', 'length', 'max'=>255),
+			array('_id, title, path', 'required'),
+			array('created_at, updated_at', 'numerical', 'integerOnly'=>true),
+			array('notoc, nocomments, public', 'boolean'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('post, resumen', 'safe'),
+			array('_rev, content, tags, summary, notoc, nocomments', 'safe'),
 			array('id, path, titulo, fecha_creado, fecha_modificado', 'safe', 'on'=>'search'),
-		);
-	}
-
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations() {
-		return array(
-            'comments' => array(self::HAS_MANY, 'Comment', 'post_id', 'order' => 'fecha_creado',),
-            'changelog' => array(self::HAS_MANY, 'PostChangelog', 'post_id'),
-            'webContent' => array(self::HAS_ONE, 'PostContent', 'post_id'),// 'group' => 't.id', 'joinType' => 'RIGHT JOIN'),
-            'tags' => array(self::MANY_MANY, 'Tag', 'post_tags(post_id, tag_id)',),// 'order'=>'name'),
 		);
 	}
 
@@ -80,15 +73,26 @@ class Post extends ActiveRecord { // CActiveRecord {
 		return array(
 			'id' => 'ID',
 			'path' => 'Path',
-			'titulo' => 'Título',
+			'title' => 'Título',
+            'summary' => 'Resumen',
 			'fecha_creado' => 'Fecha Creado',
 			'fecha_modificado' => 'Fecha Modificado',
 		);
 	}
 
-    public function attributeNames() {
-        
-    }
+//    public function attributeNames() {
+//		return array(
+//			'_id',
+//			'_rev',
+//			'title',
+//            'path',
+//            'summary',
+//			'created_at',
+//			'updated_at',
+//			'content',
+//            'tags',
+//		);
+//    }
     
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
@@ -186,10 +190,4 @@ class Post extends ActiveRecord { // CActiveRecord {
         parent::save($runValidation, $attributes);
     }
     
-    public function loadSource() {
-        $source = PostContent::load($this->id, $this->rev);
-        $source->setDbModel($this);
-        $this->_post = $source;
-        return $source;
-    }
 }

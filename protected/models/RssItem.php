@@ -43,7 +43,7 @@ class RssItem {
     }
     
     public function getDescription() {
-        return $this->item->description;
+        return (string) $this->item->description;
     }
 
     public function getPubDate() {
@@ -51,13 +51,17 @@ class RssItem {
     }
     
     public function getGuid() {
-        return $this->item->guid;
+        return $this->item->guid ? 
+            $this->item->guid :
+            $this->item->link;
     }
     
     public function getIsPermalink() {
+        if(!$this->item->guid) {
+            return 0;
+        }
         $attrs = $this->item->guid->attributes();
         return ($attrs['isPermaLink'] == 'true') ? 1 : 0;
-        
     }
     
     public function getContent() {

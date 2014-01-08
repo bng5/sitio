@@ -7,21 +7,12 @@
  * @property string $acronym
  * @property string $desc
  */
-class Acronym extends CActiveRecord {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return CActiveRecord the static model class
-	 */
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+class Acronym extends ActiveRecord {
+    
+    public $desc;
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName() {
-		return 'acronym';
+	public function database() {
+		return 'bng5_acronyms';
 	}
 
 	/**
@@ -31,20 +22,11 @@ class Acronym extends CActiveRecord {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, acronym, desc', 'required'),
+			array('_id, desc', 'required'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, tag', 'safe', 'on'=>'search'),
-		);
-	}
-
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations() {
-		return array(
-//            'posts' => array(self::MANY_MANY, 'Post', 'post_tags(tag_id, post_id)'),
-//            'posts_count' => array(self::STAT, 'Post', 'post_tags(tag_id, post_id)'),
+			array('_id, desc', 'safe'),
+			array('_id, desc', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,8 +40,16 @@ class Acronym extends CActiveRecord {
             'desc' => 'Descripción',
 		);
 	}
+    
+    public function attributeNames() {
+        return array(
+            '_id',
+            '_rev',
+            'desc',
+        );
+    }
 
-	/**
+    /**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */

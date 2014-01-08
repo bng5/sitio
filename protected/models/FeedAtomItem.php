@@ -43,8 +43,7 @@ class FeedAtomItem {
     }
     
     public function getDescription() {
-        return null;
-        return $this->item->description;
+        return (string) $this->item->description;
     }
 
     public function getPubDate() {

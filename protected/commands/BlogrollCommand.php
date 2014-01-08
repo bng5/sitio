@@ -13,7 +13,7 @@ if (!defined('STDERR')) {
 class BlogrollCommand extends CConsoleCommand {
 
     public function actionIndex() {
-        $feeds = Feed::model()->findAll();
+        $feeds = Feed::model()->find('enabled');
         var_dump($feeds);
     }
     
@@ -23,10 +23,12 @@ class BlogrollCommand extends CConsoleCommand {
         Yii::import('application.components.http.client');
         
         $client = new Http_Client('Bng5Blogroll (http://bng5.net/blogroll)', array(
-            'accept'     => 'Accept: application/rss+xml,application/atom+xml,application/xml;q=0.9,text/xml;q=0.8',));
+            'accept' => 'Accept: application/rss+xml,application/atom+xml,application/xml;q=0.9,text/xml;q=0.8',));
         
-        $feeds = Feed::model()->active()->findAll();
+        $feeds = Feed::model()->find('feeds/_view/enabled');
         foreach($feeds as $feed) {
+
+//            $feed = Feed::model()->setAttributes($feed->value, false);
             fwrite(STDOUT, "\n");
             echo "{$feed->url}\n";
             $headers = array();
@@ -90,53 +92,51 @@ class BlogrollCommand extends CConsoleCommand {
             $feed->link = $concreteFeed->getLink();
             $feed->lastRequest = time();
             $feed->description = $concreteFeed->getDescription();
-            $feed->save();
+//            $feed->save();
             
             foreach($concreteFeed AS $item) {
-                
-                $guid = $item->getGuid();
-                $feedItem = FeedItem::model()->find('guid = :guid', array(
-                    ':guid' => $guid,
-                ));
-                
+//var_dump($item);
+                $guid = (string) $item->getGuid();
+                $feedItem = null;
+                try {
+                    $feedItem = FeedItem::model()->get(urlencode($guid));
+                } catch(CouchdbException $exc) {
+                    echo $exc->getCode()."\n";
+                }
+
                 if($feedItem) {
                     fwrite(STDOUT, "Ya existe GUID. Continua.\n");
                     continue;
                 }
                 
                 $feedItem = new FeedItem;
-                $feedItem->feed_id = $feed->id;
-                $feedItem->title = $item->getTitle();
-                $feedItem->link = $item->getLink();
+                $feedItem->_id = urlencode($guid);
+                $feedItem->feed_id = $feed->_id;
+                $feedItem->title = (string) $item->getTitle();
+                $feedItem->link = (string) $item->getLink();
                 $feedItem->description = $item->getDescription();
-                $feedItem->pubDate = $item->getPubDate()->format('U');
+                $feedItem->pubDate = (int) $item->getPubDate()->format('U');
                 $feedItem->guid = $guid;
                 $feedItem->guid_isPermaLink = $item->getIsPermalink();
 //                $feedItem->content_encoded = $item->getContent();
+var_dump($feedItem);
                 $feedItem->save();
             }
-            $this->borrarAntiguos($feed->id);
+            $this->borrarAntiguos($feed->_id);
         }
         fwrite(STDOUT, "\n----\n\n");
     }
     
     protected function borrarAntiguos($feed_id) {
-        $db = Yii::app()->db;
         
-        $ultimo = Yii::app()->db->createCommand()
-            ->select('pubDate')
-            ->from('feed_item')
-            ->where('feed_id = :feed_id', array(':feed_id' => $feed_id))
-            ->order('pubDate DESC')
-            ->limit(1)
-            ->offset(9)
-            ->queryColumn();
-        
-        if($ultimo) {-
-            Yii::app()->db->createCommand()->delete('feed_item', 'feed_id = :feed_id AND pubDate < :pubDate', array(
-                ':feed_id' => $feed_id,
-                ':pubDate' => $ultimo[0],
-            ));
+        $antiguos = FeedItem::model()->find('items/_view/by_feed', array(
+            'descending' => 'true',
+            'startkey' => "[\"{$feed_id}\", 2147483647]",
+            'endkey' => "[\"{$feed_id}\", 0]",
+            'skip' => 10,
+        ));
+        foreach($antiguos AS $item) {
+            $item->delete();
         }
     }
 }

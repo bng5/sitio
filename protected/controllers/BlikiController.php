@@ -2,6 +2,8 @@
 
 class BlikiController extends Controller {
 
+    public $path;
+    
 	/**
 	 * @return array action filters
 	 */
@@ -30,6 +32,7 @@ class BlikiController extends Controller {
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions' => array(
                     'editar',
+                    'status_comentario',
                 ),
 				'users'=>array('@'),
 			),
@@ -40,6 +43,7 @@ class BlikiController extends Controller {
 			array('deny',  // deny all users
 				'actions' => array(
                     'editar',
+                    'status_comentario',
                 ),
 				'users'=>array('*'),
 			),
@@ -127,42 +131,59 @@ class BlikiController extends Controller {
         
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
-        
-//        if ($model->isNewRecord) {
-//            $model->status = 1;
-//        }
 
-        $use_cache = false;
         array_unshift($this->pageTitle, $model->title);
         $this->breadcrumbs = array(
             'Bliki' => array('bliki/'),
             $model->title,
         );
+        
+        header("X-Pingback: http://localhost.bng5.net/recibe");
+        Yii::app()->clientScript->registerLinkTag('pingback', null, "http://localhost.bng5.net/recibe");
+//        header("X-Pingback: http://{$_SERVER['SERVER_NAME']}/pingback/xmlrpc");
+//        Yii::app()->clientScript->registerLinkTag('pingback', null, "http://{$_SERVER['SERVER_NAME']}/pingback/xmlrpc");
         Yii::app()->clientScript->registerLinkTag('alternate', 'application/xml', "/bliki/{$path}/source");
         Yii::app()->clientScript->registerCssFile('/css/avisos.css');
 
-        $renderer = $this->___renderer($model->tokens);
+        $use_cache = true;
+        $cache = '';
+        if(!Yii::app()->user->isGuest && array_key_exists('cache', $_GET)) {
+            $cache = $_GET['cache'];
+            switch($cache) {
+                case 'clear':
+//                    Yii::app()->cache->delete($cache_id_post);
+                case 'no':
+                    $use_cache = false;
+                    break;
+            }
+        }
 
-        $new_comment = property_exists($model, 'comentarios_habilitados') ? new Comment() : false;
+   
+        $new_comment = $model->nocomments ? false : new Comment();
 
+        $comments = Comment::model()->find('comments/_view/by_post', array(
+            'startkey' => '["'.$model->_id.'", 0]',
+            'endkey' => '["'.$model->_id.'", 2147483647]',
+        ));
+        
         $view = $this->render('post', array(
             'path' => $path,
             'titulo' => $model->title,
-            'html' => $renderer->__toString(),
             'post' => $model,//->post,
             'new_comment' => $new_comment,
+            'comments' => $comments,
 //            'comments' => $model->comments,
-            'cache' => $use_cache,
-        ), true);
-        echo $view;
+            'cache' => $cache,
+        ));/*, true);
+        echo $view;*/
     }
     
-    private function ___renderer($arr) {
+    protected function _renderer($arr) {
         $renderer = new BlikiRenderer();
         foreach($arr AS $instruction) {
             $renderer->append((array) $instruction);
         }
-        return $renderer;
+        return (string) $renderer;
     }
 
     
@@ -178,81 +199,80 @@ class BlikiController extends Controller {
     public function actionEditar() {
         $error = false;
         $path = $this->actionParams['item'];
-        $model = $this->loadModel($path);
+        $html = null;
+        
+        $model = Post::model()->get($path);//$this->loadModel($path);
+        if(!$model) {
+            $model = new Post;
+        }
+        
+        $preview = false;
+        if(array_key_exists('preview', $_REQUEST)) {
+var_dump(Yii::app()->user);
+exit;
+            $preview = true;
+            $parser = new BlikiParser;
+            try {
+                $parser->parse($model->content);
+                $html = $this->_renderer($parser->getTokens());
+            } catch (Exception $exc) {
+                $error = $exc->getMessage();
+            }
+            Yii::app()->clientScript->registerCssFile('/css/avisos.css');
+        }
+            
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $post = $_POST['Post'];
+            $post['tags'] = array_unique(array_filter($post['tags']));
+            $model->setAttributes($post);
+
+
+            if(!$preview) {
+                
+
+//            if($model->_rev) {// || array_key_exists('publicar', $_POST)) {
+//                $path = $_POST['PostContent']['path'];
+//                $model->attributes = $_POST['PostContent'];
+////                $model->toc_habilitado = (array_key_exists('toc_habilitado', $_POST['PostContent']) && $_POST['PostContent']['toc_habilitado']);
+//                $model->comentarios_habilitados = (array_key_exists('comentarios_habilitados', $_POST['PostContent']) && $_POST['PostContent']['comentarios_habilitados']);
+////                $model->estado = array_key_exists('publicar', $_POST) ? 1 : 0;
+//                $model->save();
+////            }
+//            $model->post->attributes = $_POST['PostContent'];
+//            $model->post->toc_habilitado = (array_key_exists('toc_habilitado', $_POST['PostContent']) && $_POST['PostContent']['toc_habilitado']);;
+//            $model->post->comentarios_habilitados = $model->comentarios_habilitados;
+//            
+            
+                try {
+                    $model->save();
+                    Yii::app()->user->setFlash('success', true);
+                    $this->redirect(array("bliki/{$path}/editar?preview"));
+                } catch (Exception $exc) {
+                    $error = $exc->getMessage();
+                }
+            }
+        }
+        else {
+//            $model = Post::model()->get($path);//$this->loadModel($path);
+        }
+        
+//var_dump($model);
+//exit;
+//        if($model) {
+//        }
+//        else {
+//            $model = new Post();
+//            $model->setPost(new PostContent());
+//            $model->post->path = $this->actionParams['item'];
+//            $model->post->titulo = ucfirst(str_replace('_', ' ', $this->actionParams['item']));
+//            $model->post->fecha_creado = time();
+//        }
         $this->render('edit', array(
             'path' => $path,
 //            'estado' => $model->estado,
             'model' => $model,
             'error' => $error,
-        ));
-return;
-
-        if($model) {
-            $model->loadSource();
-//var_dump($model);
-//var_dump($model->post);
-//exit;
-        }
-        else {
-            $model = new Post();
-            $model->setPost(new PostContent());
-            $model->post->path = $this->actionParams['item'];
-            $model->post->titulo = ucfirst(str_replace('_', ' ', $this->actionParams['item']));
-            $model->post->fecha_creado = time();
-        }
-        
-        if($_SERVER['REQUEST_METHOD'] == 'POST') {
-//            if($model->isNewRecord || array_key_exists('publicar', $_POST)) {
-                $path = $_POST['PostContent']['path'];
-                $model->attributes = $_POST['PostContent'];
-//                $model->toc_habilitado = (array_key_exists('toc_habilitado', $_POST['PostContent']) && $_POST['PostContent']['toc_habilitado']);
-                $model->comentarios_habilitados = (array_key_exists('comentarios_habilitados', $_POST['PostContent']) && $_POST['PostContent']['comentarios_habilitados']);
-//                $model->estado = array_key_exists('publicar', $_POST) ? 1 : 0;
-                $model->save();
-//            }
-            $model->post->attributes = $_POST['PostContent'];
-            $model->post->toc_habilitado = (array_key_exists('toc_habilitado', $_POST['PostContent']) && $_POST['PostContent']['toc_habilitado']);;
-            $model->post->comentarios_habilitados = $model->comentarios_habilitados;
-            
-            PostTags::model()->deleteAll('post_id = :post_id', array(
-                ':post_id' => $model->id,
-            ));
-            foreach($_POST['PostContent']['tags'] AS $t) {
-                $tag = new Tag;
-                $tag->tag = $t;
-                $dataProvider = $tag->search();
-                if($dataProvider->itemCount) {
-                    $id = $dataProvider->data[0]->id;
-                }
-                else {
-                    $tag->titulo = $t;
-                    $tag->descripcion = $t;
-                    if(!$tag->save()) {
-            //var_dump($tag->getErrors());
-                    }
-                    $id = $tag->id;
-                }
-                $postTag = new PostTags;
-                $postTag->post_id = $model->id;
-                $postTag->tag_id = $id;
-                $postTag->save();
-            }
-            
-            
-            try {
-                $model->post->save();
-                Yii::app()->user->setFlash('success', true);
-                $this->redirect(array("bliki/{$path}/editar"));
-            } catch (Exception $exc) {
-                $error = $exc->getMessage();
-            }
-        }
-        
-        $this->render('edit', array(
-            'path' => $path,
-            'estado' => $model->estado,
-            'model' => $model->post,
-            'error' => $error,
+            'preview' => $html,
         ));
 return;
         try {
@@ -265,7 +285,6 @@ return;
             ));
             return;
         }
-
     }
     
     public function actionHistorial() {
@@ -273,23 +292,22 @@ return;
         $this->render('historial', array(
             'model' => $model,
         ));
-
     }
 
     public function actionComentarios() {
         $model = $this->loadModel($this->actionParams['item']);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'no está');
+        }
         
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             $comment = new Comment();
-            
-            $comment->post_id = $model->id;
-            $comment->texto = $_POST['Comentario']['comentario'];
+            $comment->post_id = $model->_id;
+            $comment->message = $_POST['Comentario']['comentario'];
             $comment->remote_addr = sprintf("%u", ip2long($_SERVER['REMOTE_ADDR']));
             $comment->status = 0;
-            $comment->fecha_creado = time();
+            $comment->created_at = time();
             $comment->validate();
             
             if(!in_array($_POST['Auth']['type'], array(
@@ -303,11 +321,14 @@ return;
             
             if($comment->hasErrors()) {
                 $this->render('comentar', array(
-                    'post' => $model,
+                    'post_id' => $model->_id,
                     'comentario' => $comment,
                 ));
                 return;
             }
+            
+            $comment->html = $comment->message;
+            
             $auth = false;
             switch($_POST['Auth']['type']) {
                 case 'persona':
@@ -315,12 +336,13 @@ return;
                     break;
                 case 'twitter':
                 case 'linkedin':
+                    $comment->auth = $_POST['Auth'];
                     $comment->save();
-                    $this->actionOauth($_POST['Auth']['type'], $comment->id, $this->actionParams['item']);
+                    $this->actionOauth($_POST['Auth']['type'], $comment->_id, $this->actionParams['item']);
                     break;
                 case 'openid':
                     $comment->save();
-                    $this->actionOpenid($_POST['Auth']['openid_identifier'], $comment->id, $model->id);
+                    $this->actionOpenid($_POST['Auth']['openid_identifier'], $comment->_id, $model->_id);
                     break;
 //                default:
 //                    echo CHtml::link('redirect', array('post', 'item' => $this->actionParams['item']));
@@ -339,8 +361,30 @@ return;
             }
             
         }
+        elseif($_SERVER['REQUEST_METHOD'] == 'DELETE') {
+            
+        }
     }
     
+    public function actionStatus_comentario() {
+        $response = array(
+            'success' => false,
+        );
+        header("Content-Type: application/json; charset=UTF-8");
+        $model = Comment::model()->get($_POST['id']);
+        $model->status = (int) $_POST['status'];
+        if($model->save()) {
+            $response['success'] = true;
+            $response['id'] = $model->_id;
+            $response['status'] = $model->status;
+            echo json_encode($response);
+        }
+        else {
+            echo json_encode($response);
+        }
+    }
+
+
     public function loadModel($item) {
         $model = Post::model()->get($item);
         return $model;
@@ -355,6 +399,11 @@ return;
     }
     
     public function loadAuthor($provider, $id) {
+print_r(array(
+    ':provider' =>  $provider,
+    ':id' => $id,
+));
+exit;
         $model = Author::model()->find(array(
             'condition' => 'tipo = :provider AND provider_id = :id',
             'params' => array(
@@ -420,28 +469,22 @@ return;
 //        $this->oauthLogin('twitter', $provider);
 //    }
     
-    protected function oauth_provider_info($provider) {
+    protected function oauth_provider_info($providerId) {
         $providers = array(
             'linkedin' => array(
-                'key' => 'b446jl32ux9g',
-                'secret' => 'Bk3Th4lLSIEWmMXG',
-                'provider'=>array(
-                    'request' => 'https://api.linkedin.com/uas/oauth/requestToken',
-                    'authorize' => 'https://api.linkedin.com/uas/oauth/authenticate',
-                    'access' => 'https://api.linkedin.com/uas/oauth/accessToken',
-                )
+                'request' => 'https://api.linkedin.com/uas/oauth/requestToken',
+                'authorize' => 'https://api.linkedin.com/uas/oauth/authenticate',
+                'access' => 'https://api.linkedin.com/uas/oauth/accessToken',
             ),
             'twitter' => array(
-                'key' => 'PocyRN5tfzTOJDYyBUPXsA',
-                'secret' => 'sjlBXQfJLoqWoWN1gzqTHfk7c5sqBcDH8ugIWzd3h6s',
-                'provider'=>array(
-                    'request'=>'https://api.twitter.com/oauth/request_token',
-                    'authorize'=>'https://api.twitter.com/oauth/authorize',
-                    'access'=>'https://api.twitter.com/oauth/access_token',
-                )
+                'request'=>'https://api.twitter.com/oauth/request_token',
+                'authorize'=>'https://api.twitter.com/oauth/authorize',
+                'access'=>'https://api.twitter.com/oauth/access_token',
             ),
         );
-        return $providers[$provider];
+        $provider = Yii::app()->params['oauth_providers'][$providerId];
+        $provider['provider'] = $providers[$providerId];
+        return $provider;
     }
     
     protected function oauth_api_info($provider) {
@@ -451,7 +494,7 @@ return;
                 'params' => array('format' => 'json'),
             ),
             'twitter' => array(
-                'url' => 'https://api.twitter.com/1/account/verify_credentials.json',
+                'url' => 'https://api.twitter.com/1.1/account/verify_credentials.json',
                 'params' => null,
             ),
         );
@@ -459,11 +502,17 @@ return;
     }
     
     public function actionOauth($prov, $c, $i) {
+        $id_comentario = $c;
+        $id_post = $i;
+        
         Yii::import('ext.eoauth.*');
 
         $provider = $this->oauth_provider_info($prov);
+        $provider = Yii::app()->params['oauth_providers'][$prov];
+        
+        
         $ui = new EOAuthUserIdentity($provider);
-        $ui->path = "/bliki/oauth/prov/{$prov}/c/{$c}/i/{$i}";
+        $ui->path = "/bliki/oauth/prov/{$prov}/c/{$id_comentario}/i/{$id_post}";
 
         if($ui->authenticate()) {
             $profile = $this->oauth_api_info($prov);
@@ -475,16 +524,18 @@ return;
             $request->sign_request($signatureMethod, $ui->provider->consumer, $ui->provider->token);
 
             $url .= $params ? '?'.http_build_query($params, null, '&') : '';
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-            $head[] = $request->to_header();
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $head);
-            $response = curl_exec($ch);
-            $headers = curl_getinfo($ch);
-            curl_close($ch);
+            $http_client = new Http_Client();
+            $response = $http_client->get($url, array('authorization' => $request->to_header()));
+//            $ch = curl_init($url);
+//            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+//            curl_setopt($ch, CURLOPT_HEADER, 0);
+//            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+//            $head[] = $request->to_header();
+//            curl_setopt($ch, CURLOPT_HTTPHEADER, $head);
+//            $response = curl_exec($ch);
+//            $headers = curl_getinfo($ch);
+//            curl_close($ch);
 
             $response_obj = json_decode($response);
             if(!$response_obj) {
@@ -493,13 +544,27 @@ return;
                 exit;
             }
             
+            $comment = Comment::model()->get($id_comentario);
             
             switch($prov) {
                 case 'twitter':
-                    $author = $this->loadAuthor(Author::TIPO_TWITTER, $response_obj->id);
-                    $author->nombre = "{$response_obj->name} (@{$response_obj->screen_name})";
-                    $author->avatar = str_replace('_normal.', '_bigger.', $response_obj->profile_image_url);
-                    $author->link = "https://twitter.com/{$response_obj->screen_name}";
+                    if($response->status == 200) {
+                        
+//                    if($response_obj->errors) {
+//                        ["_status":"Http_Response":private]=>int(410)
+//                        ["body":"Http_Response":private]=>string(160) "{"errors": [{"message": "The Twitter REST API v1 is no longer active. Please migrate to API v1.1. https://dev.twitter.com/docs/api/1.1/overview.", "code": 68}]}"
+//                        throw new CHttpException(500, $response_obj->errors[0]->message);
+//                    }
+                    //$author = $this->loadAuthor(Author::TIPO_TWITTER, $response_obj->id);
+                    //$author->nombre = "{$response_obj->name} (@{$response_obj->screen_name})";
+                    //$author->avatar = str_replace('_normal.', '_bigger.', $response_obj->profile_image_url);
+                    //$author->link = "https://twitter.com/{$response_obj->screen_name}";
+                        $comment->author = "{$response_obj->name} (@{$response_obj->screen_name})";
+                        $comment->author_avatar = str_replace('_normal.', '_bigger.', $response_obj->profile_image_url);
+                        $comment->author_website = "https://twitter.com/{$response_obj->screen_name}";
+                    }
+                    
+                    
             //        screen_name {$response_obj->screen_name}
             //        echo "
             //        profile_image_url_https <img src=\"{$response_obj->profile_image_url_https}\" alt=\"\" />
@@ -508,26 +573,29 @@ return;
             //        ";
                     break;
                 case 'linkedin':
-                    $author = $this->loadAuthor(Author::TIPO_LINKEDIN, $response_obj->id);
-                    $author->nombre = "{$response_obj->firstName} {$response_obj->lastName}";
-                    $author->avatar = $response_obj->pictureUrl;
-                    $author->link = $response_obj->siteStandardProfileRequest->url;
+//                    $author = $this->loadAuthor(Author::TIPO_LINKEDIN, $response_obj->id);
+                    $comment->author = "{$response_obj->firstName} {$response_obj->lastName}";
+                    $comment->author_avatar = $response_obj->pictureUrl;
+                    $comment->author_website = $response_obj->siteStandardProfileRequest->url;
                     break;
             }
 
-            $author->data = serialize(array(
-                'access_token' => $ui->provider->token->key,
-                'secret_token' => $ui->provider->token->secret,
-            ));
-            $author->save();
-            $comment = Comment::model()->findByPk($c);
+            
+            $comment->author_data = $response_obj;
+            $comment->auth->access_token = $ui->provider->token->key;
+            $comment->auth->secret_token = $ui->provider->token->secret;
+//            $comment->author_data = serialize(array(
+//                'access_token' => $ui->provider->token->key,
+//                'secret_token' => $ui->provider->token->secret,
+//            ));
+            //$author->save();
             $comment->status = 1;
             //$comment->status = $author->whitelist;
-            $comment->author_id = $author->id;
-            $comment->parseMessage();
+//            $comment->author_id = $author->id;
+//            $comment->parseMessage();
             $comment->save();
             Yii::app()->cache->delete('come:'.$comment->post_id);
-            $this->redirect("/bliki/{$i}#comentario-{$c}");
+            $this->redirect("/bliki/{$id_post}#comentario-{$id_comentario}");
         }
         else {
 var_dump($ui);
@@ -546,7 +614,7 @@ var_dump($ui);
             }
         }
         else {
-            $comment = Comment::model()->findByPk($c);
+            $comment = Comment::model()->get($c);
             if($openid->validate()) {
                 $identity = $openid->getIdentity();
                 $author = $this->loadAuthor(Author::TIPO_OPENID, $identity);
@@ -573,15 +641,14 @@ var_dump($ui);
                 $this->redirect("/bliki/{$comment->post->path}#comentario-{$c}");
             }
             else {
-//$data = $openid->getData();
-//var_dump($data);
-
+$data = $openid->getData();
+var_dump($openid);
+exit;
                 $comment->addError('openid', 'No fue posible validar tu cuenta OpenID.');
                 $this->render('comentar', array(
-                    'post' => $comment->post,
+                    'post_id' => $i,
                     'comentario' => $comment,
                 ));
-exit;
                 throw new CHttpException(404, 'No fue posible autenticar la cuenta OpenID.');
             }
 

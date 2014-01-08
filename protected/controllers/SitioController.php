@@ -19,26 +19,8 @@ class SitioController extends Controller {
 	 * when an action is not explicitly requested by users.
 	 */
 	public function actionIndex() {
-        $this->layout = '//layouts/column2';
-        $list = Post::model()->find('created');
-//		$dataProvider = new CActiveDataProvider('Post', array(
-//            'criteria'=>array(
-//                'condition'=>'estado = 1',
-////                'order'=>'create_time DESC',
-////                'with'=>array('author'),
-//            ),
-//            'pagination'=>array(
-//                'pageSize'=>6,
-//                //'currentPage' => --$pag,
-//                'pageVar' => 'pagina',
-//                'route' => '/bliki',//$request['path'],
-////                'params'=> $params,
-//            ),
-//        ));
         
 		$this->render('index', array(
-//            'dataProvider'=>$dataProvider,
-            'model' => $list,
         ));
 	}
     
@@ -47,6 +29,10 @@ class SitioController extends Controller {
     }
 
     public function actionPowered_by() {
+        $this->breadcrumbs = array(
+            'Acerca de este sitio' => array('/sitio'),
+            'Potenciado por',
+        );
         $this->render('powered_by');
     }
 

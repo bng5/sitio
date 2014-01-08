@@ -424,14 +424,6 @@ echo "
 </pre>
 ";
         
-        
-        
-        
-        
-        
-        
-        
-        
         var_dump($this->doc->saveXML());
         return;
     }

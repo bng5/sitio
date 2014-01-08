@@ -95,9 +95,9 @@ class Http_Client {
         $this->_responseHeaders = '';
         curl_setopt($this->_ch, CURLOPT_HTTPHEADER, array_merge($this->_headers, $requestHeaders));
         curl_setopt($this->_ch, CURLOPT_CUSTOMREQUEST, $method);
-        if($data) {
+//        if($data) {
             curl_setopt($this->_ch, CURLOPT_POSTFIELDS, $data);
-        }
+//        }
         curl_setopt($this->_ch, CURLOPT_URL, $url);
         return $this->_exec();
     }
@@ -105,10 +105,12 @@ class Http_Client {
     private function _exec() {
         $response = curl_exec($this->_ch);
         $curlInfo = curl_getinfo($this->_ch);
-        if($curlInfo['http_code'])
+        if($curlInfo['http_code']) {
             return new Http_Response($curlInfo['http_code'], $this->_responseHeaders, $response, $curlInfo);
-        else
-            return null;
+        }
+        else {
+            throw new Http_ClientException('Error en la consulta', 0, $curlInfo);
+        }
     }
 
     private function _readHeader($ch, $header) {
@@ -130,7 +132,7 @@ class Http_Client {
 }
 
 class Http_Response {
-    private $_status, $headers, $body, $curlInfo;
+    private $_status, $headers, $_body, $curlInfo;
 
     /**
      *
@@ -141,7 +143,7 @@ class Http_Response {
     public function __construct($statusCode, $headers, $body, $curlInfo = null) {
         $this->_status = $statusCode;
         $this->headers = $headers;
-        $this->body = $body;
+        $this->_body = $body;
         $this->curlInfo = $curlInfo;
     }
 
@@ -163,7 +165,7 @@ class Http_Response {
     }
 
     public function __toString() {
-        return $this->body;
+        return $this->_body;
     }
 }
 
@@ -197,3 +199,15 @@ class Http_Response {
     [Transfer-Encoding] => chunked
     [Content-Type] => text/plain; charset=UTF-8
  */
+
+class Http_ClientException extends Exception {
+
+    protected $info;
+    public function __construct($message, $code, $info) {
+        parent::__construct($message, $code, null);
+        $this->info = $info;
+    }
+    public function getInfo() {
+        return $this->info;
+    }
+}

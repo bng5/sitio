@@ -1,0 +1,32 @@
+#admin {
+    background-color: black;
+    color: #ffffff;
+    padding: .5em;
+}
+
+#admin a {
+    color: #ffffff;
+}
+
+#admin .usuario {
+    /*float: right;*/
+}
+
+a.admin-eliminar {
+    background-image: url("/img/silk/delete");
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+}
+a.admin-eliminar span {
+    display: none;
+}
+
+dl.comentarios .pending,
+dl.comentarios .pending + dd {
+    background-color: #EEEEDD;
+}
+dl.comentarios .disabled,
+dl.comentarios .disabled + dd {
+    background-color: #EA9C9C;
+}

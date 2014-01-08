@@ -3,44 +3,24 @@
 /**
  *
  * The followings are the available columns in table 'post':
- * @property integer $id
+ * @property string $_id
  * @property integer $status
- * @property integer $post_id
- * @property integer $reply_to
- * @property integer $author_id
- * @property string $website
- * @property integer $remote_addr
- * @property integer $fecha_creado
- * @property string $texto
- * @property string $instrucciones
- * @property string $html
+ * @property string $post_id
+ * @property string $remote_addr
+ * @property integer $created_at
+ * @property string $sourceURI
  */
-class Comment extends ActiveRecord {
+class Pingback extends ActiveRecord {
     
-    const TIPO_OPENID = 1;
-    const TIPO_PERSONA = 2;
-    const TIPO_TWITTER = 3;
-    const TIPO_LINKEDIN = 4;
-    
-    const AVATAR_NORMAL = 1;
-    const AVATAR_MINI = 1;
-    
-    public $type = 'comment';
+    public $type = 'pingback';
     
     public $post_id;
-    public $reply_to;
-    public $remote_addr;
-    public $status;
+    public $sourceURI;
+    public $status = 0;
     public $created_at;
-    public $author;
-    public $author_avatar;
-    public $author_email;
-    public $author_website;
-    public $author_data;
-    public $message;
-    public $html;
-
-    public $auth;
+    public $remote_addr;
+    
+    public $title;
     
     /**
 	 * Returns the static model of the specified AR class.
@@ -55,6 +35,13 @@ class Comment extends ActiveRecord {
 		return 'bng5_bliki';
 	}
 
+    public function save($runValidation = true) {
+        if(!$this->created_at) {
+            $this->created_at = time();
+        }
+        parent::save($runValidation);
+    }
+    
     /**
 	 * @return array validation rules for model attributes.
 	 */
@@ -62,7 +49,7 @@ class Comment extends ActiveRecord {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('message', 'required', 'message' => 'El comentario no puede estar vacío.',),
+			array('post_id, sourceURI', 'required', 'message' => 'El comentario no puede estar vacío.',),
 //			array('nombre, post_id, author_id, texto', 'required'),
 			//array('author_id', 'required', 'message' => 'No es posible validar la casilla de correos, intentá con una real.',),
 			array('created_at', 'numerical', 'integerOnly'=>true),
@@ -108,35 +95,4 @@ class Comment extends ActiveRecord {
 		));
 	}
 
-    public function parseMessage() {
-        
-        $this->instrucciones = $this->message;
-        $this->html = $this->message;
-    }
-    
-    public function getAvatar($tamanyo = self::AVATAR_NORMAL) {
-        if($this->author_avatar) {
-            return $this->author_avatar;
-        }
-        if(!$this->auth) {
-            return null;
-        }
-        switch($this->auth->type) {
-            case self::TIPO_OPENID:
-                $avatar = '/img/avatar/openid'.($tamanyo == self::AVATAR_NORMAL ? '' : '_mini');
-                break;
-            case self::TIPO_PERSONA:
-                $size = $tamanyo == self::AVATAR_NORMAL ? 
-                    55 : 
-                    40;
-                $avatar = sprintf('http://www.gravatar.com/avatar/%s?s=%d&d=mm', $this->author_avatar, $size);
-                break;
-//            default:
-//                $avatar = $this->author_avatar;
-//                break;
-        }
-        return $avatar;
-    }
-    
-    
 }

@@ -10,6 +10,7 @@ $this->pageTitle = (array) $this->pageTitle;
     <link rel="home" href="http://bng5.net/" />
     <link rel="author" title="Pablo Bangueses" href="http://pablo.bng5.net/" />
     <link rel="alternate" type="application/rss+xml" title="RSS" href="http://bng5.net/feed/rss" charset="utf-8" />
+    <script type="text/javascript" src="/js/sitio.js"></script>
     <?php
     
 if(!Yii::app()->user->isGuest) {
@@ -111,11 +112,11 @@ $breadcrumbs = (isset($this->breadcrumbs) && count($this->breadcrumbs));
 
 <div id="footer">
     <div class="content">
-        <!-- div class="menu">
+<!--        <div class="menu">
             <ul>
                 <li><a href="/mapa">Mapa del sitio</a></li>
             </ul>
-        </div -->
+        </div>-->
         <div class="botones">
 <?php
 //        <a href="/acerca_de_este_sitio/" title="Acerca de este sitio">Acerca de este sitio</a>
@@ -123,10 +124,10 @@ $breadcrumbs = (isset($this->breadcrumbs) && count($this->breadcrumbs));
 //        <a  href="http://creativecommons.org/licenses/by-sa/3.0/" rel="license" title="CC Attribution-Share Alike 3.0 Unported"><img src="http://bng5.net/lib/images/license/button/cc-by-sa.png" width="80" height="15" alt="" /></a>
 ?>
         
+            <a  href="http://validator.w3.org/check/referer" title="Valid XHTML 1.1">Valid XHTML 1.1</a> - 
             <a  href="/sitio/powered_by">Powered by&#8230;</a>
-            <!--<a  href="http://www.php.net" title="Powered by PHP"><img src="/img/button-php" width="80" height="15" alt="Powered by PHP" /></a>-->
-            <a  href="http://validator.w3.org/check/referer" title="Valid XHTML 1.1"><img src="/img/button-xhtml1_1" width="80" height="15" alt="Valid XHTML 1.1" /></a>
 <?php
+//            <!--<a  href="http://www.php.net" title="Powered by PHP"><img src="/img/button-php" width="80" height="15" alt="Powered by PHP" /></a>-->
 //      <!-- a  href="http://jigsaw.w3.org/css-validator/check/referer?profile=css3" title="Valid CSS"><img src="/lib/tpl/bliki/images/button-css.png" width="80" height="15" alt="Valid CSS" /></a -->
 //        <a  href="http://microformats.org/" title="Microformatted for your pleasure"><img src="http://bng5.net/lib/tpl/bliki/images/button-mf.png" width="80" height="15" alt="Microformatted for your pleasure" /></a>
 ?>

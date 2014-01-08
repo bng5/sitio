@@ -25,6 +25,11 @@
  */
 class User extends ActiveRecord {
 
+    public $id;
+    public $username;
+    public $created_at;
+    public $password;
+    public $email;
 //    public $permissions = array();
 
 //    public function  __construct($scenario = 'insert') {
@@ -173,4 +178,15 @@ class User extends ActiveRecord {
             $cod_aut .= $clave_caract[rand(0, $max)];
         return $cod_aut;
     }
+
+    public function attributeNames() {
+        return array(
+            'id',
+            'username',
+            'created_at',
+            'password',
+            'email',
+        );
+    }
+
 }

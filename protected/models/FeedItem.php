@@ -12,8 +12,18 @@
  * @property int $guid_isPermaLink
  * @property string $content_encoded
  */
-class FeedItem extends CActiveRecord {
+class FeedItem extends ActiveRecord {
 
+    public $feed_id;
+    public $type = 'item';
+    public $title;
+    public $link;
+    public $description;
+    public $pubDate;
+    public $guid;
+    public $guid_isPermaLink;
+    public $content_encoded;
+    
     /**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -23,14 +33,11 @@ class FeedItem extends CActiveRecord {
 		return parent::model($className);
 	}
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName() {
-		return 'feed_item';
-	}
+    public function database() {
+        return 'bng5_blogroll';
+    }
 
-	/**
+    /**
 	 * @return array validation rules for model attributes.
 	 */
 	public function rules() {
@@ -44,14 +51,6 @@ class FeedItem extends CActiveRecord {
 	public function relations() {
 		return array(
             'feed' => array(self::BELONGS_TO, 'Feed', 'feed_id'),
-		);
-	}
-
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels() {
-		return array(
 		);
 	}
 

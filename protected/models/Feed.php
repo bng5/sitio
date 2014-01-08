@@ -15,7 +15,7 @@
  * @property int $HttpLastModified
  * @property string $HttpETag
  */
-class Feed extends CActiveRecord {
+class Feed extends ActiveRecord {
     
     const TYPE_RSS = 1;
     const TYPE_ATOM = 2;
@@ -24,23 +24,31 @@ class Feed extends CActiveRecord {
     const ESTADO_ACTIVO = 1;
     const ESTADO_PRIVADO = 2;
 
-    /**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return Author the static model class
-	 */
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public $url;
+    public $type = 'feed';
+    public $feed_type;
+    public $title;
+    public $link;
+    public $description;
+    public $lastBuildDate;
+    public $estado;
+    public $lastRequest;
+    public $charset;
+    public $HttpLastModified;
+    public $HttpETag;
 
-	/**
+    /**
 	 * @return string the associated database table name
 	 */
 	public function tableName() {
 		return 'feed';
 	}
+    
+    public function database() {
+        return 'bng5_blogroll';
+    }
 
-	/**
+    /**
 	 * @return array validation rules for model attributes.
 	 */
 	public function rules() {

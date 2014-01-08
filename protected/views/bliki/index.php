@@ -79,9 +79,6 @@ class Html_Paginado {// implements Vista_Admin_iComponente
 }
 
 
-
-
-
 //$this->widget('zii.widgets.CListView', array(
 //	'dataProvider' => $dataProvider,
 //	'itemView'=>'_view',
@@ -90,12 +87,13 @@ class Html_Paginado {// implements Vista_Admin_iComponente
 //var_dump($dataProvider->pagination->pageCount);
 
 
-echo "
-<pre>
-total_rows - {$model->total_rows}
-offset     - {$model->offset}
-</pre>
-";
+//echo "
+//<pre>";
+//var_dump($model);
+//echo "
+//</pre>
+//";
+
 //object(stdClass)#35 (3) {
 //  ["total_rows"]=> int(1)
 //  ["offset"]=> int(0)
@@ -111,13 +109,17 @@ offset     - {$model->offset}
 //}
 
 
-foreach($model->rows as $row) {
+foreach($model as $data) {
 
-    $data = $row->value;
+//    $data = $row->value;
+echo '<!-- ';
+var_dump($data);
+echo ' -->';
 ?>
 
 <div class="view">
-    <h2><?php echo CHtml::link(CHtml::encode($data->title), array($row->id)); ?></h2>
+    <h2><?php echo CHtml::link(CHtml::encode($data->title), 
+            array($data->path)); ?></h2>
     <?php
     echo CHtml::encode($data->summary);
 /*
@@ -132,18 +134,17 @@ foreach($model->rows as $row) {
 <?php
 
 }
-return;
 
 //var_dump($dataProvider->pagination->getPageCount());
 //$paginado = new Html_Paginado($dataProvider->pagination->getPageCount(), $dataProvider->pagination->pageVar, null);
 //echo $paginado;
 
 
-Yii::import('ext.MyLinkPager');
-$this->widget('MyLinkPager', array(
-    'pages' => $dataProvider->pagination,
-    'header' => '',
-));
+//Yii::import('ext.MyLinkPager');
+//$this->widget('MyLinkPager', array(
+//    'pages' => $dataProvider->pagination,
+//    'header' => '',
+//));
 
 
 $tags = array(

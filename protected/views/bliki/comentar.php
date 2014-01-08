@@ -16,104 +16,14 @@ Yii::app()->clientScript->registerScriptFile('/js/persona.js', CClientScript::PO
 //
 //", CClientScript::POS_HEAD);
 
-Yii::app()->clientScript->registerScript('wikitags',"
+Yii::app()->clientScript->registerScriptFile('/js/wikitags.js', CClientScript::POS_HEAD);
 
-// apply tagOpen/tagClose to selection in textarea,
-// use sampleText instead of selection if there is none
-function insertTags(area, tagOpen, tagClose, sampleText) {
-    var txtarea = document.getElementById(area);
-    var selText, isSample = false;
-
-    if (document.selection  && document.selection.createRange) { // IE/Opera
-        //save window scroll position
-
-        var winScroll;
-        if (document.documentElement && document.documentElement.scrollTop)
-            winScroll = document.documentElement.scrollTop
-        else if (document.body)
-            winScroll = document.body.scrollTop;
-        //get current selection
-        txtarea.focus();
-        var range = document.selection.createRange();
-        selText = range.text;
-        //insert tags
-        checkSelectedText();
-        range.text = tagOpen + selText + tagClose;
-        //mark sample text as selected
-        if(isSample && range.moveStart) {
-            if (window.opera)
-                tagClose = tagClose.replace(/\\n/g,'');
-            range.moveStart('character', - tagClose.length - selText.length);
-            range.moveEnd('character', - tagClose.length);
-        }
-        range.select();
-        //restore window scroll position
-        if (document.documentElement && document.documentElement.scrollTop)
-            document.documentElement.scrollTop = winScroll
-        else if (document.body)
-            document.body.scrollTop = winScroll;
-    }
-    else if (txtarea.selectionStart || txtarea.selectionStart == '0') { // Mozilla
-        //save textarea scroll position
-        var textScroll = txtarea.scrollTop;
-        //get current selection
-        txtarea.focus();
-        var startPos = txtarea.selectionStart;
-        var endPos = txtarea.selectionEnd;
-        selText = txtarea.value.substring(startPos, endPos);
-        //insert tags
-        if (!selText) {
-            selText = sampleText;
-            isSample = true;
-        }
-        else if (selText.charAt(selText.length - 1) == ' ') { //exclude ending space char
-            selText = selText.substring(0, selText.length - 1);
-            tagClose += ' ';
-        }
-        txtarea.value = txtarea.value.substring(0, startPos) + tagOpen + selText + tagClose + txtarea.value.substring(endPos, txtarea.value.length);
-        //set new selection
-        if(isSample) {
-            txtarea.selectionStart = startPos + tagOpen.length;
-            txtarea.selectionEnd = startPos + tagOpen.length + selText.length;
-        }
-        else {
-            txtarea.selectionStart = startPos + tagOpen.length + selText.length + tagClose.length;
-            txtarea.selectionEnd = txtarea.selectionStart;
-        }
-        //restore textarea scroll position
-        txtarea.scrollTop = textScroll;
-    }
-}
-
-function insertarEnlace(areaTexto) {
-    var txtarea = document.getElementById(areaTexto);
-    txtarea.focus();
-    var startPos = txtarea.selectionStart;
-    var endPos = txtarea.selectionEnd;
-    selText = txtarea.value.substring(startPos, endPos);
-    var url = prompt('Dirección de destino', selText);
-    if(url) {
-        var tit = prompt('Texto del enlace', selText);
-        if(tit)
-            url = url+'|'+tit;
-        txtarea.value = txtarea.value.substring(0, startPos) + url + txtarea.value.substring(endPos, txtarea.value.length);
-        txtarea.selectionStart = startPos;
-        txtarea.selectionEnd = txtarea.selectionStart + url.length;
-        insertTags(areaTexto, '[[', ']]', '')
-    }
-}
-
-function highlightSource(select) {
-    var lang = select.options[select.options.selectedIndex].value;
-    select.options.selectedIndex = 0;
-    insertTags('comentario_comentario', '<code '+lang+'>\\n', '\\n</code>', 'Código a resaltar');
-}
-
-var actual = {};
-actual['a1_'] = 'comentario_comentario';
-
-", CClientScript::POS_HEAD);
-
+$field_class = array(
+    'nombre' => '',
+    'email' => '',
+    'website' => '',
+);
+                
 //Yii::app()->clientScript->registerScript('buttons',"
 //    
 //$(function() {
@@ -152,7 +62,6 @@ actual['a1_'] = 'comentario_comentario';
 //    echo $exc->getMessage();
 //}
 
-$field_class = array();
 if($comentario && $comentario->hasErrors()) {
 //    var_dump($comentario->errors);
     echo '
@@ -170,16 +79,18 @@ if($comentario && $comentario->hasErrors()) {
 
 ?>
 
-<form id="comentario" action="/bliki/<?php echo $post->path; ?>/comentarios" method="post"><!-- onsubmit="return enviarComentario(this);" -->
+<form id="comentario" action="/bliki/<?php echo $post_id; ?>/comentarios" method="post"><!-- onsubmit="return enviarComentario(this);" -->
     <input type="hidden" id="auth_type" name="Auth[type]" value="" />
+    <input type="hidden" id="Comentario_reply_to" name="Comentario[reply_to]" value="" />
     <ul class="form">
         <!-- 
-        <li><label for="comentario_nombre">Nombre*</label> <input type="text" name="Comentario[nombre]" id="comentario_nombre" value="<?php echo $comentario->nombre; ?>" <?php echo $field_class['nombre']; ?> /></li>
-        <li><label for="comentario_email">E-mail*</label> <input type="text" name="Comentario[email]" id="comentario_email" value="<?php echo $comentario->author->email; ?>" <?php echo $field_class['email']; ?>/></li>
-        <li><label for="comentario_website">Sitio web</label> <input type="text" name="Comentario[website]" id="comentario_website" value="<?php echo $comentario->website; ?>" <?php echo $field_class['website']; ?>/></li>
+        <li><label for="comentario_nombre">Nombre*</label> <input type="text" name="Comentario[nombre]" id="comentario_nombre" value="<?php echo $comentario->author; ?>" <?php 
+        echo $field_class['nombre']; ?> /></li>
+        <li><label for="comentario_email">E-mail*</label> <input type="text" name="Comentario[email]" id="comentario_email" value="<?php echo $comentario->author_email; ?>" <?php echo $field_class['email']; ?>/></li>
+        <li><label for="comentario_website">Sitio web</label> <input type="text" name="Comentario[website]" id="comentario_website" value="<?php echo $comentario->author_website; ?>" <?php echo $field_class['website']; ?>/></li>
         -->
         <li><label for="comentario_comentario">Comentario*</label> 
-            <div>
+            <div class="toolbar">
                 <button type="button" onclick="insertTags(actual['a1_'], '**','**','Texto en negrita')" title="Texto en negrita"><img src="/img/silk/text_bold" alt="Texto en negrita" /></button>
                 <button type="button" onclick="insertTags(actual['a1_'], '//','//','Texto en cursiva')" title="Texto en cursiva"><img src="/img/silk/text_italic" alt="Texto en cursiva" /></button>
                 <button type="button" onclick="insertTags(actual['a1_'], '__','__','Texto subrayado')" title="Texto subrayado"><img src="/img/silk/text_underline" alt="Texto subrayado" /></button>
@@ -389,7 +300,7 @@ if($comentario && $comentario->hasErrors()) {
                     <option value="zxbasic">zxbasic</option>
                 </select>
              </div>
-             <textarea name="Comentario[comentario]" id="comentario_comentario" rows="10" cols="60" <?php echo $field_class['website']; ?>><?php echo $comentario->texto; ?></textarea>
+             <textarea name="Comentario[comentario]" id="comentario_comentario" rows="10" cols="60" <?php echo $field_class['website']; ?>><?php echo $comentario->message; ?></textarea>
         </li>
     </ul>
 	<div class="auth_buttons">
@@ -404,7 +315,7 @@ if($comentario && $comentario->hasErrors()) {
                 <button type="submit" name="Auth[type]" value="twitter" class="twitter"><img src="/img/icons/b2_btn_icon" alt="[ícono]" /> Twitter</button>
             </li>
             <li>
-                <button type="submit" name="Auth[type]" value="linkedin"><img src="http://www.google.com/s2/favicons?domain=linkedin.com" alt="[ícono]" /> LinkedIn</button>
+                <button type="submit" name="Auth[type]" value="linkedin"><img src="/img/favicons/linkedin_com" alt="[ícono]" /> LinkedIn</button>
             </li>
             <li>
                 <button type="submit" name="Auth[type]" value="ninguno">Ninguno</button>

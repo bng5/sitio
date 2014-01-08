@@ -146,7 +146,8 @@ n17GS8caGgAJJICURZPHDHQMSFmp
             //Yii::app()->clientScript->registerLinkTag('openid.delegate', null, 'http://pablo.bng5.net');            
             Yii::app()->clientScript->registerLinkTag('openid2.provider', null, 'https://www.google.com/accounts/o8/ud?source=profiles');
             Yii::app()->clientScript->registerLinkTag('openid2.local_id', null, 'https://profiles.google.com/pablobngs');
-
+//            Yii::app()->clientScript->registerLinkTag('openid2.provider openid.server', null, 'https://open.login.yahooapis.com/openid/op/auth');
+//            Yii::app()->clientScript->registerLinkTag('openid2.local_id openid.delegate', null, 'https://me.yahoo.com/a/vqvpEPFgsNthJLoXKdTyWhPcrnr4lhPd9FXz');
         }
         $datetime1 = new DateTime('1981-02-24');
         $datetime2 = new DateTime();

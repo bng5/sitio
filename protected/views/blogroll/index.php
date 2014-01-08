@@ -34,16 +34,24 @@ if($mensaje) {
     
     $fuentes = array();
     foreach($feeds AS $f) {
-        if(!array_key_exists($f->id, $fuentes)) {
-            $fuentes[$f->id] = urlencode(parse_url($f->link, PHP_URL_HOST));
+        if(!array_key_exists($f->_id, $fuentes)) {
+            $fuentes[$f->_id] = array(
+                'url' => urlencode(parse_url($f->link, PHP_URL_HOST)),
+                'title' => $f->title,
+            );
         } 
-        $selected = ($feed && $feed->id == $f->id) ? 
+        $selected = ($feed && $feed->_id == $f->_id) ? 
             ' class="activo"' :
             '';
         printf('
-            <li style="list-style-image: url(\'https://plus.google.com/_/favicon?domain=%2$s\');"%3$s><a href="/blogroll/%2$s">%1$s</a></li>', $f->title, $fuentes[$f->id], $selected);
+            <li style="list-style-image: url(\'https://plus.google.com/_/favicon?domain=%2$s\');"%4$s><a href="/blogroll/%3$s">%1$s</a></li>', 
+                $f->title,
+                $fuentes[$f->_id]['url'],
+                $f->_id,
+                $selected
+        );
     }
-    
+
     ?>
         </ul>
     </div>
@@ -62,7 +70,7 @@ if($feed) {
         <dl>
             <dt>URL:</dt>
             <dd>".CHtml::link($feed->link, $feed->link, array('rel' => 'external'))."</dd>
-            <dt>{$feed_types[$feed->type]}:</dt>
+            <dt>{$feed_types[$feed->feed_type]}:</dt>
             <dd>".CHtml::link($feed->url, $feed->url, array('rel' => 'external'))."</dd>
         </dl>";
 }
@@ -70,13 +78,13 @@ if($feed) {
 ?>
 
         <h3>Posts</h3>
-        <ul>
+        <ol>
 <?php
 
 $id = $feed ? 
-    $feed->id :
+    $feed->_id :
     'all';
-if($this->beginCache("blogroll1:{$id}", array('duration' => 600))) {
+//if($this->beginCache("blogroll1:{$id}", array('duration' => 600))) {
     $hoy = getdate();
     $meses = array(
         1 => 'ene',
@@ -94,22 +102,25 @@ if($this->beginCache("blogroll1:{$id}", array('duration' => 600))) {
     );
 
     foreach($posts AS $item) {
+        if(!array_key_exists($item->feed_id, $fuentes)) {
+            continue;
+        }
         $pubDate = getdate($item->pubDate);
         $fecha = ($pubDate['yday'] == $hoy['yday'] && $pubDate['year'] == $hoy['year']) ?
             date('G:i', $item->pubDate).' hs.' : //"{$pubDate['hours']}:{$pubDate['minutes']} hs." : 
             "{$pubDate['mday']}-{$meses[$pubDate['mon']]}-{$pubDate['year']}";
         echo "
-            <li><span title=\"{$item->feed->title}\" class=\"autor\"><img src=\"https://plus.google.com/_/favicon?domain={$fuentes[$item->feed_id]}\" alt=\"[Favicon]\" /> {$item->feed->title}</span> <a href=\"{$item->link}\" rel=\"external\">{$item->title}</a> <span class=\"fecha\" >{$fecha}</span></li>";
+            <li><span title=\"{$fuentes[$item->feed_id]['url']}\" class=\"autor\"><img src=\"https://plus.google.com/_/favicon?domain={$fuentes[$item->feed_id]['url']}\" alt=\"[Favicon]\" /> {$fuentes[$item->feed_id]['title']}</span> <a href=\"{$item->link}\" rel=\"external\">{$item->title}</a> <span class=\"fecha\" >{$fecha}</span></li>";
     }
-    $this->endCache();
-}
-else {
-    echo "
-<!-- leído del caché -->
-";
-}
+//    $this->endCache();
+//}
+//else {
+//    echo "
+//leído del caché
+//";
+//}
 
 ?>
-        </ul>
+        </ol>
     </div>
 </div>

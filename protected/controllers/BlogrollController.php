@@ -8,9 +8,7 @@ class BlogrollController extends Controller {
         $mensaje = false;
         if($feed) {
             $feed_identificador = $feed;
-            $feed = Feed::model()->find('link RLIKE :link', array(
-                ':link' => sprintf('^https?:\/\/%s/?$', $feed),
-            ));
+            $feed = Feed::model()->get($feed);
             if(!$feed) {
                 header("Pragma: no-cache", true, 404);
                 $mensaje = 'No se encontró el feed <em>'.$feed_identificador.'</em>.';
@@ -18,8 +16,19 @@ class BlogrollController extends Controller {
             }
         }
 
-        $feeds = Feed::model()->public()->findAll();
-        $posts = FeedItem::model()->newest($feed)->findAll();
+        $feeds = Feed::model()->find('feeds/_view/enabled');
+        if($feed) {
+            $posts = FeedItem::model()->find('items/_view/by_feed', array(            
+                'startkey' => "[\"{$feed->_id}\", 2147483647]",
+                'endkey' => "[\"{$feed->_id}\", 0]",
+                'descending' => 'true',
+            ));
+        }
+        else {
+            $posts = FeedItem::model()->find('items/_view/by_pubdate', array(            
+                'descending' => 'true',
+            ));
+        }
 
         if($formato == 'opml') {
             $this->opml($feeds);

@@ -31,7 +31,7 @@ class Rss implements Iterator {
     }
     
     public function getDescription() {
-        return $this->xml->channel->description;
+        return (string) $this->xml->channel->description;
     }
 
     public function getLink() {

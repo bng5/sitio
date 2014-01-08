@@ -25,6 +25,15 @@ return array(
 			'password' => 'R?G{%rDyfvT-',
 			'charset' => 'utf8',
 		),
+        'couchdb'=>array(
+            'class' => 'Couchdb',
+//            'autoConnect' => false,
+//            'emulatePrepare' => true,
+//            'connectionString' => 'mysql:host=10.163.1.15;dbname=gbg',
+            'host' => 'localhost',
+            'port' => '5984',
+//            'charset' => 'utf8',
+        ),
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
