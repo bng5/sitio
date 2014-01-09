@@ -31,6 +31,11 @@ a:link {
 a:hover {
 	text-decoration: underline;
 }
+a.external:after {
+    content: url("/img/icons/extlink");
+    padding: 0 0 0 2px;
+    vertical-align: top;
+}
 p {
 
 }
@@ -146,6 +151,7 @@ element.style {
 	background-color: #E7E7E7;
     border-top: 1px solid #CCCCCC;
     clear: both;
+    color: #336699;
     padding: 14px 0;
 }
 #footer .content {
@@ -155,6 +161,7 @@ element.style {
     text-align: right;
 }
 #footer .botones a {
+    color: inherit;
     display: inline-block;
     height: 15px;
     vertical-align: middle;
@@ -193,9 +200,18 @@ element.style {
 
 h1 {
     margin: 0 0 0.67em 0;
-    color: #2A2A2A;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #282828;
     text-shadow: 2px 2px 2px #AAAAAA;
 }
+
 
 h2 a.permalink,
 h3 a.permalink,
@@ -617,6 +633,9 @@ div.fuentes {
     display: block;
     overflow: hidden;
     padding: 4px;
+}
+.logos a:after {
+    content: none;
 }
 .logos a:hover {
     background-color: rgba(200, 200, 200, 0.2);

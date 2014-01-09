@@ -29,8 +29,8 @@ class BlikiController extends Controller {
 //                ),
 //				'users'=>array('*'),
 //			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions' => array(
+                array('allow', // allow authenticated user to perform 'create' and 'update' actions
+                    'actions' => array(
                     'editar',
                     'status_comentario',
                 ),
@@ -40,13 +40,13 @@ class BlikiController extends Controller {
 //    //				'actions'=>array('admin','delete'),
 //    //				'users'=>array('admin'),
 //    //			),
-			array('deny',  // deny all users
-				'actions' => array(
+                array('deny',  // deny all users
+                   'actions' => array(
                     'editar',
                     'status_comentario',
                 ),
-				'users'=>array('*'),
-			),
+                'users'=>array('*'),
+            ),
 		);
 	}
     

@@ -19,9 +19,10 @@ class SitioController extends Controller {
 	 * when an action is not explicitly requested by users.
 	 */
 	public function actionIndex() {
-        
-		$this->render('index', array(
-        ));
+        $this->breadcrumbs = array(
+            'Acerca de este sitio',
+        );
+		$this->render('index');
 	}
     
     public function actionMapa() {

@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" xml:lang="es-uy" lang="es-uy">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <title><?php
 $this->pageTitle = (array) $this->pageTitle;
     echo CHtml::encode(implode(' - ', $this->pageTitle)); ?></title>
@@ -14,7 +15,7 @@ $this->pageTitle = (array) $this->pageTitle;
     <?php
     
 if(!Yii::app()->user->isGuest) {
-    Yii::app()->clientScript->registerScriptFile('http://code.jquery.com/jquery-1.9.1.js');
+//    Yii::app()->clientScript->registerScriptFile('http://code.jquery.com/jquery-1.9.1.js');
     echo '
     <link rel="stylesheet" type="text/css" href="/css/admin.css" />
     <script type="text/javascript" src="/js/admin.js"></script>';
