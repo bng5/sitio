@@ -14,6 +14,7 @@
  * @property string $texto
  * @property string $instrucciones
  * @property string $html
+ * @property string $user_agent
  */
 class Comment extends ActiveRecord {
     
@@ -39,6 +40,7 @@ class Comment extends ActiveRecord {
     public $author_data;
     public $message;
     public $html;
+    public $user_agent;
 
     public $auth;
     
@@ -109,7 +111,7 @@ class Comment extends ActiveRecord {
 	}
 
     public function parseMessage() {
-        
+        return;
         $this->instrucciones = $this->message;
         $this->html = $this->message;
     }

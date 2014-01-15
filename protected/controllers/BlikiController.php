@@ -123,6 +123,7 @@ class BlikiController extends Controller {
 	}
 
     public function actionPost() {
+        
         $path = $this->actionParams['item'];
         $model = Post::model()->get($path);
         if(!$model) {
@@ -204,12 +205,14 @@ class BlikiController extends Controller {
         $model = Post::model()->get($path);//$this->loadModel($path);
         if(!$model) {
             $model = new Post;
+            $model->_id = $path;
+            $model->path = $path;
         }
         
         $preview = false;
         if(array_key_exists('preview', $_REQUEST)) {
-var_dump(Yii::app()->user);
-exit;
+//var_dump(Yii::app()->user);
+//exit;
             $preview = true;
             $parser = new BlikiParser;
             try {
@@ -301,13 +304,26 @@ return;
         }
         
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
-            
             $comment = new Comment();
             $comment->post_id = $model->_id;
+            if($_POST['Comentario']['reply_to']) {
+                $comment->reply_to = $_POST['Comentario']['reply_to'];
+            }
             $comment->message = $_POST['Comentario']['comentario'];
             $comment->remote_addr = sprintf("%u", ip2long($_SERVER['REMOTE_ADDR']));
             $comment->status = 0;
             $comment->created_at = time();
+            if(array_key_exists('HTTP_USER_AGENT', $_SERVER)) {
+                $user_agent = new WpUserAgent();
+                $user_agent->useragent = $_SERVER['HTTP_USER_AGENT'];
+                $comment->user_agent = array(
+                    $_SERVER['HTTP_USER_AGENT'],
+                    array(
+                        'browser' => $user_agent->detect_webbrowser(),
+                        'platform' => $user_agent->detect_platform(),
+                    ),
+                );
+            }
             $comment->validate();
             
             if(!in_array($_POST['Auth']['type'], array(
@@ -615,41 +631,138 @@ var_dump($ui);
         }
         else {
             $comment = Comment::model()->get($c);
-            if($openid->validate()) {
-                $identity = $openid->getIdentity();
-                $author = $this->loadAuthor(Author::TIPO_OPENID, $identity);
 
-                $author->nombre = preg_replace('/(^https?:\/\/)|(\/$)/', '', $identity);
-                $author->avatar = '/img/avatar/openid';
-                $author->link = $identity;
-                $data = $openid->getData();
-                $author->data = serialize(array(
-                    'ns' => $data->openid_ns,
-                    'mode' => $data->openid_mode,
-                    'op_endpoint' => $data->openid_op_endpoint,
-                    'identity' => $data->openid_identity,
-                    'claimed_id' => $data->openid_claimed_id,
-                ));
-                $author->save();
+            if($openid->validate()) {
+                /*
+                $openid = object(EOpenID)#36 (19) {
+                  ["returnUrl"]=>  string(748) "http://ddex.bng5.net/bliki/openid/c/dd44f0c92a09ae783c5e77b1f00030a3/i/estilos?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=id_res&openid.op_endpoint=https%3A%2F%2Fwww.google.com%2Faccounts%2Fo8%2Fud%3Fsource%3Dprofiles&openid.response_nonce=2014-01-13T00%3A15%3A14ZmmVNPE_bCbILYg&openid.return_to=http%3A%2F%2Fddex.bng5.net%2Fbliki%2Fopenid%2Fc%2Fdd44f0c92a09ae783c5e77b1f00030a3%2Fi%2Festilos&openid.assoc_handle=1.AMlYA9XluJPQydBvlvENU9lOeEJmYFD6CI44sqNr1rmwtJ0qu0GA9WvbkxrEyrA2&openid.signed=op_endpoint%2Cclaimed_id%2Cidentity%2Creturn_to%2Cresponse_nonce%2Cassoc_handle&openid.sig=ktExb90y4dmImQDJOUdpSvrBbhg%3D&openid.identity=https%3A%2F%2Fprofiles.google.com%2Fpablobngs&openid.claimed_id=http%3A%2F%2Fpablo.bng5.net%2F"
+                  ["required"]=>  array(0) {
+                  }
+                  ["optional"]=>  array(0) {
+                  }
+                  ["identity":"EOpenID":private]=>  string(37) "https://profiles.google.com/pablobngs"
+                  ["claimed_id":"EOpenID":private]=>  string(22) "http://pablo.bng5.net/"
+                  ["isAuthenticated":"EOpenID":private]=>  bool(true)
+                  ["server":protected]=>  string(53) "https://www.google.com/accounts/o8/ud?source=profiles"
+                  ["version":protected]=>  int(2)
+                  ["trustRoot":protected]=>  string(20) "http://ddex.bng5.net"
+                  ["aliases":protected]=>  NULL
+                  ["identifier_select":protected]=>  bool(false)
+                  ["ax":protected]=>  bool(false)
+                  ["sreg":protected]=>  bool(false)
+                  ["data":protected]=>  array(12) {
+                    ["openid_ns"]=>    string(32) "http://specs.openid.net/auth/2.0"
+                    ["openid_mode"]=>    string(6) "id_res"
+                    ["openid_op_endpoint"]=>    string(53) "https://www.google.com/accounts/o8/ud?source=profiles"
+                    ["openid_response_nonce"]=>    string(34) "2014-01-13T00:15:14ZmmVNPE_bCbILYg"
+                    ["openid_return_to"]=>    string(78) "http://ddex.bng5.net/bliki/openid/c/dd44f0c92a09ae783c5e77b1f00030a3/i/estilos"
+                    ["openid_assoc_handle"]=>    string(66) "1.AMlYA9XluJPQydBvlvENU9lOeEJmYFD6CI44sqNr1rmwtJ0qu0GA9WvbkxrEyrA2"
+                    ["openid_signed"]=>    string(69) "op_endpoint,claimed_id,identity,return_to,response_nonce,assoc_handle"
+                    ["openid_sig"]=>    string(28) "ktExb90y4dmImQDJOUdpSvrBbhg="
+                    ["openid_identity"]=>    string(37) "https://profiles.google.com/pablobngs"
+                    ["openid_claimed_id"]=>    string(22) "http://pablo.bng5.net/"
+                    ["c"]=>    string(32) "dd44f0c92a09ae783c5e77b1f00030a3"
+                    ["i"]=>    string(7) "estilos"
+                  }
+                  ["errorCode"]=>  int(100)
+                  ["errorMessage"]=>  string(0) ""
+                  ["_state":"CBaseUserIdentity":private]=>  array(0) {
+                  }
+                  ["_e":"CComponent":private]=>  NULL
+                  ["_m":"CComponent":private]=>  NULL
+                }
+                 */
+
+                $identity = $openid->getIdentity();
+//                $author = $this->loadAuthor(Author::TIPO_OPENID, $identity);
+
+                $comment->author = preg_replace('/(^https?:\/\/)|(\/$)/', '', $identity);
+                $comment->author_avatar = '/img/avatar/openid';
+                $comment->author_website = $identity;
+                $comment->author_data = $openid->getData();
+//                $data = $openid->getData();
+//                $comment->author_data = serialize(array(
+//                    'ns' => $data->openid_ns,
+//                    'mode' => $data->openid_mode,
+//                    'op_endpoint' => $data->openid_op_endpoint,
+//                    'identity' => $data->openid_identity,
+//                    'claimed_id' => $data->openid_claimed_id,
+//                ));
+//                $author->save();
 
                 $comment->status = 1;
                 //$comment->status = $author->whitelist;
-                $comment->author_id = $author->id;
+//                $comment->author_id = $author->id;
                 $comment->parseMessage();
                 $comment->save();
                 Yii::app()->cache->delete('come:'.$comment->post_id);
                 $this->redirect("/bliki/{$comment->post->path}#comentario-{$c}");
             }
             else {
+                
+/*
+$openid = object(EOpenID)#36 (19) {
+  ["returnUrl"]=>  string(750) "http://ddex.bng5.net/bliki/openid/c/dd44f0c92a09ae783c5e77b1f00019a0/i/estilos?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=id_res&openid.op_endpoint=https%3A%2F%2Fwww.google.com%2Faccounts%2Fo8%2Fud%3Fsource%3Dprofiles&openid.response_nonce=2014-01-12T23%3A54%3A29Z3Qfakld1n16yPA&openid.return_to=http%3A%2F%2Fddex.bng5.net%2Fbliki%2Fopenid%2Fc%2Fdd44f0c92a09ae783c5e77b1f00019a0%2Fi%2Festilos&openid.assoc_handle=1.AMlYA9XoIl9B6hF34VlDpbY6MEt2Uqn66SQO7hioEebeBTIpsZrAu1kMUvMArxyt&openid.signed=op_endpoint%2Cclaimed_id%2Cidentity%2Creturn_to%2Cresponse_nonce%2Cassoc_handle&openid.sig=yr%2Frp3Bn1xoMIKN7hkBhKw9vLF4%3D&openid.identity=https%3A%2F%2Fprofiles.google.com%2Fpablobngs&openid.claimed_id=http%3A%2F%2Fpablo.bng5.net%2F"
+  ["required"]=>  array(0) {
+  }
+  ["optional"]=>  array(0) {
+  }
+  ["identity":"EOpenID":private]=>  string(37) "https://profiles.google.com/pablobngs"
+  ["claimed_id":"EOpenID":private]=>  string(22) "http://pablo.bng5.net/"
+  ["isAuthenticated":"EOpenID":private]=>  bool(false)
+  ["server":protected]=>  string(53) "https://www.google.com/accounts/o8/ud?source=profiles"
+  ["version":protected]=>  int(2)
+  ["trustRoot":protected]=>  string(20) "http://ddex.bng5.net"
+  ["aliases":protected]=>  NULL
+  ["identifier_select":protected]=>  bool(false)
+  ["ax":protected]=>  bool(false)
+  ["sreg":protected]=>  bool(false)
+  ["data":protected]=>  array(12) {
+    ["openid_ns"]=>    string(32) "http://specs.openid.net/auth/2.0"
+    ["openid_mode"]=>    string(6) "id_res"
+    ["openid_op_endpoint"]=>    string(53) "https://www.google.com/accounts/o8/ud?source=profiles"
+    ["openid_response_nonce"]=>    string(34) "2014-01-12T23:54:29Z3Qfakld1n16yPA"
+    ["openid_return_to"]=>    string(78) "http://ddex.bng5.net/bliki/openid/c/dd44f0c92a09ae783c5e77b1f00019a0/i/estilos"
+    ["openid_assoc_handle"]=>    string(66) "1.AMlYA9XoIl9B6hF34VlDpbY6MEt2Uqn66SQO7hioEebeBTIpsZrAu1kMUvMArxyt"
+    ["openid_signed"]=>    string(69) "op_endpoint,claimed_id,identity,return_to,response_nonce,assoc_handle"
+    ["openid_sig"]=>    string(28) "yr/rp3Bn1xoMIKN7hkBhKw9vLF4="
+    ["openid_identity"]=>    string(37) "https://profiles.google.com/pablobngs"
+    ["openid_claimed_id"]=>    string(22) "http://pablo.bng5.net/"
+    ["c"]=>    string(32) "dd44f0c92a09ae783c5e77b1f00019a0"
+    ["i"]=>    string(7) "estilos"
+  }
+  ["errorCode"]=>  int(100)
+  ["errorMessage"]=>  string(0) ""
+  ["_state":"CBaseUserIdentity":private]=>  array(0) {
+  }
+  ["_e":"CComponent":private]=>  NULL
+  ["_m":"CComponent":private]=>  NULL
+}
+
+$data = object(stdClass)#41 (12) {
+  ["openid_ns"]=>  string(32) "http://specs.openid.net/auth/2.0"
+  ["openid_mode"]=>  string(6) "id_res"
+  ["openid_op_endpoint"]=>  string(53) "https://www.google.com/accounts/o8/ud?source=profiles"
+  ["openid_response_nonce"]=>  string(34) "2014-01-12T23:54:29Z3Qfakld1n16yPA"
+  ["openid_return_to"]=>  string(78) "http://ddex.bng5.net/bliki/openid/c/dd44f0c92a09ae783c5e77b1f00019a0/i/estilos"
+  ["openid_assoc_handle"]=>  string(66) "1.AMlYA9XoIl9B6hF34VlDpbY6MEt2Uqn66SQO7hioEebeBTIpsZrAu1kMUvMArxyt"
+  ["openid_signed"]=>  string(69) "op_endpoint,claimed_id,identity,return_to,response_nonce,assoc_handle"
+  ["openid_sig"]=>  string(28) "yr/rp3Bn1xoMIKN7hkBhKw9vLF4="
+  ["openid_identity"]=>  string(37) "https://profiles.google.com/pablobngs"
+  ["openid_claimed_id"]=>  string(22) "http://pablo.bng5.net/"
+  ["c"]=>  string(32) "dd44f0c92a09ae783c5e77b1f00019a0"
+  ["i"]=>  string(7) "estilos"
+}
+ */
 $data = $openid->getData();
-var_dump($openid);
+var_dump($openid, $data);
 exit;
                 $comment->addError('openid', 'No fue posible validar tu cuenta OpenID.');
                 $this->render('comentar', array(
                     'post_id' => $i,
                     'comentario' => $comment,
                 ));
-                throw new CHttpException(404, 'No fue posible autenticar la cuenta OpenID.');
+//                throw new CHttpException(404, 'No fue posible autenticar la cuenta OpenID.');
             }
 
         }

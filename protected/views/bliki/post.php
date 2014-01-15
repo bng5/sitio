@@ -62,7 +62,7 @@ foreach($comments AS $comment) {
 }
 
 
-function mostrarComentarios($comentarios, $parent, $controller, $level = 0) {
+function mostrarComentarios($comentarios, $parent, $controller, $level = 0, $id_parent = '', $num = 1) {
     if(!count($comentarios))
         return;
     if($level == 0) {
@@ -82,22 +82,33 @@ function mostrarComentarios($comentarios, $parent, $controller, $level = 0) {
         $autor = CHtml::image($avatar, '[Avatar]', array('width' => $img_size)).' '.$comment->author;
         echo '
             <dt'.$class_primero.' id="comentario-'.$comment->_id.'">
+                <a href="'.$controller->path.'#comentario-'.$id_parent.$num.'" class="permalink" id="comentario-'.$id_parent.$num.'">#'.$id_parent.$num.'</a>
                 <span class="author">'.($comment->author_website ? CHtml::link($autor, $comment->author_website, array('title' => $comment->author_website, 'rel' => 'external')) : $autor).'</span> 
                 <a href="'.$controller->path.'#comentario-'.$comment->_id.'"><span class="date" title="'.date(DATE_ATOM, $comment->created_at).'">'.$controller->formato_fecha($comment->created_at).'</span></a> 
                 <a href="/comentarios/'.$comment->_id.'/respuesta" onclick="return reply(this, \''.$comment->_id.'\')" class="reply" title="Responder"><span>Responder</span></a>
 ';
 //                <a class="comment-reply-link" href="#responder" onclick="return addComment.moveForm(\'-98590\', \'98590\', \'respond\', \'2545\')">Responder</a>
+        if($comment->user_agent) {
+            $useragent = $comment->user_agent[1];
+            if(property_exists($useragent, 'browser')) {
+                echo "<img src=\"/img/icons/useragent/browser/{$useragent->browser->code}\" alt=\"{$useragent->browser->title}\" title=\"{$useragent->browser->title}\" />";
+            }
+            if(property_exists($useragent, 'platform')) {
+                echo "<img src=\"/img/icons/useragent/{$useragent->platform->type}/{$useragent->platform->code}\" alt=\"{$useragent->platform->title}\" title=\"{$useragent->platform->title}\" />";
+            }
+        }
 echo '
             </dt>
             <dd>
                 '.$comment->html;
         if(array_key_exists($comment->_id, $comentarios)) {
-            mostrarComentarios($comentarios, $comment->_id, $controller, ++$level);
+            mostrarComentarios($comentarios, $comment->_id, $controller, ++$level, "{$num}-");
             $level--;
         }
         echo '
             </dd>';
         $class_primero = '';
+        $num++;
     }
     echo '
         </dl>';
